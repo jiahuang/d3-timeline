@@ -5,7 +5,7 @@ Get something that looks like
 
 ![Rectangular Timeline](https://raw.github.com/jiahuang/d3-timeline/master/examples/timeline1.png)
 
-with a call that looks like 
+for a dataset that looks like 
 
 ```js
 var testData = [
@@ -13,11 +13,15 @@ var testData = [
     {"starting_time": 1355752800000, "ending_time": 1355759900000}, 
     {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
   {id: "person b", times: [
-    {"starting_time": 1355759910000, "ending_time": 1355761900000}, ]},
+    {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
   {id: "person c", times: [
     {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
   ];
+```
 
+with a call that looks like 
+
+```js
 var chart = d3.timeline()
   .width(500)
   .height(100);
