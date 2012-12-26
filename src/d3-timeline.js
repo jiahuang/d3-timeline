@@ -1,12 +1,3 @@
-/*
-data = [
-  {name: "person a", times: [{"starting_time": 1355752800000, "ending_time": 1355759900000}]},
-  {name: "person b", times: [{"starting_time": 1355759910000, "ending_time": 1355761900000}]},
-  {name: "person c", times: [{"starting_time": 1355761910000, "ending_time": 1355763910000}]},
-];
-
-*/
-
 (function() {
   
   d3.timeline = function() {
