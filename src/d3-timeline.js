@@ -17,29 +17,48 @@
         beginning = 0,
         ending = 0,
         margin = {left: 30, right:30, top: 30, bottom:30},
-        unstacked = false,
+        stacked = false,
         textLabel = false,
         itemHeight = 20
       ;
 
     function timeline (g) {
-      var scaleFactor = (1/(ending - beginning)) * (width - margin.left - margin.right);
-      var yAxisMapping = {};
-      var maxStack = 1;
+      var yAxisMapping = {},
+        maxStack = 1,
+        minTime = 0,
+        maxTime = 0;
       
       // check how many stacks we're gonna need
       // do this here so that we can draw the axis before the graph
-      if (unstacked) {
+      if (stacked || (ending == 0 && beginning == 0)) {
         g.each(function (d, i) {
           d.forEach(function (datum, index) {
-            // create y mapping for unstacked
-            if (Object.keys(yAxisMapping).indexOf(datum.id) == -1) {
+
+            // create y mapping for stacked graph
+            if (stacked && Object.keys(yAxisMapping).indexOf(datum.id) == -1) {
               yAxisMapping[datum.id] = maxStack;
               maxStack++;
             }
+
+            // figure out beginning and ending times if they are unspecified
+            if (ending == 0 && beginning == 0){
+              datum.times.forEach(function (time, i) {
+                if (time.starting_time < minTime || minTime == 0)
+                  minTime = time.starting_time;
+                if (time.ending_time > maxTime)
+                  maxTime = time.ending_time;
+              });
+            }
           });
         });
+
+        if (ending == 0 && beginning == 0) {
+          beginning = minTime;
+          ending = maxTime;
+        }
       }
+
+      var scaleFactor = (1/(ending - beginning)) * (width - margin.left - margin.right);
 
       // draw the axis
       var xScale = d3.time.scale()
@@ -88,12 +107,12 @@
           if (textLabel) {
             g.append('text')
               .attr("class", "timeline-label")
-              .attr("transform", "translate("+ 0 +","+ (15 + margin.top + (itemHeight+5) * yAxisMapping[datum.id])+")")
+              .attr("transform", "translate("+ 0 +","+ (itemHeight - 5 + margin.top + (itemHeight+5) * yAxisMapping[datum.id])+")")
               .text(datum.id);
           }
 
           function getStackPosition(d, i) {
-            if (unstacked) {
+            if (stacked) {
               return margin.top + (itemHeight+5) * yAxisMapping[datum.id];
             } 
             return margin.top;
@@ -172,8 +191,8 @@
       return timeline;
     };
 
-    timeline.unstack = function () {
-      unstacked = !unstacked;
+    timeline.stack = function () {
+      stacked = !stacked;
       return timeline;
     };
 
