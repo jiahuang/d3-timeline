@@ -84,8 +84,12 @@ data = [
             .attr("r", itemHeight/2)
             .attr("height", itemHeight)
             .style("fill", colorCycle(datum.id))
-            .on("mousemove", hover)
-            .on("click", click)
+            .on("mousemove", function (d, i) {
+              hover(d, i, datum);
+            })
+            .on("click", function (d, i) {
+              click(d, i, datum);
+            })
           ;
 
           // add the label
