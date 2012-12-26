@@ -47,9 +47,7 @@
       function timelineRect() {
         var chart = d3.timeline()
           .width(width)
-          .height(100)
-          .beginning(1355752800000)
-          .ending(1355774400000);
+          .height(100);
 
         var svg = d3.select("#timeline1").append("svg").attr("height", 100).attr("width", width)
           .datum(testData).call(chart);
@@ -59,13 +57,12 @@
         var chart = d3.timeline()
           .width(width)
           .height(100)
-          .beginning(1355752800000)
-          .ending(1355774400000)
-          .tickFormat({format: d3.time.format("%I %p"), 
-          tickTime: d3.time.hours, 
-          tickNumber: 1, 
-          tickSize: 30})
-          .display("circle");
+          .tickFormat( // 
+            {format: d3.time.format("%I %p"), 
+            tickTime: d3.time.hours, 
+            tickNumber: 1, 
+            tickSize: 30})
+          .display("circle"); // toggle between rectangles and circles
 
         var svg = d3.select("#timeline2").append("svg").attr("height", 100).attr("width", width)
           .datum(testData).call(chart);
@@ -75,9 +72,9 @@
         var chart = d3.timeline()
           .width(width)
           .height(100)
-          .beginning(1355752800000)
-          .ending(1355774400000)
-          .hover(function (d, i, datum) {
+          .hover(function (d, i, datum) { 
+          // d is the current time object. i is the index during d3 rendering
+          // datum is the id object
             var div = $('#hoverRes');
             var colors = chart.colors();
             div.find('.coloredDiv').css('background-color', colors(datum.id))
@@ -91,14 +88,14 @@
           .datum(testData).call(chart);
       }
 
-      function timelineUnstacked() {
+      function timelineStacked() {
         var chart = d3.timeline()
           .width(width)
           .height(300)
-          .beginning(1355752800000)
-          .ending(1355774400000)
-          .unstack()
-          .label()
+          .beginning(1355752800000) // we can optionally add beginning and ending times
+          .ending(1355774400000)    // this will speed up the rendering process
+          .stack() // toggles graph stacking
+          .label() // toggles id labels
           .margin({left:70, right:30, top:30, bottom:30})
           ;
         var svg = d3.select("#timeline4").append("svg").attr("height", 300).attr("width", width)
@@ -108,7 +105,7 @@
       timelineRect();
       timelineCircle();
       timelineHover();
-      timelineUnstacked();
+      timelineStacked();
     }
   </script>
 </head>
@@ -130,7 +127,7 @@
     </div>
   </div>
   <div>
-    <h3>We can add some labels and unstack the timeline</h3>
+    <h3>We can add some labels and stack the timeline</h3>
     <div id="timeline4"></div>
   </div>
 
