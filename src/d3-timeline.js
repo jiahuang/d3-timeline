@@ -18,6 +18,7 @@
         ending = 0,
         margin = {left: 30, right:30, top: 30, bottom:30},
         stacked = false,
+        textLabel = false,
         itemHeight = 20
       ;
 
@@ -80,6 +81,7 @@
       g.each(function(d, i) {
         d.forEach( function(datum, index){
           var data = datum.times;
+          var hasLabel = (typeof(datum.label) != "undefined");
 
           g.selectAll("svg").data(data).enter()
             .append(display)
@@ -103,11 +105,12 @@
 
           // add the label
           // TODO: this doesn't work with something that is stacked
-          if (typeof(datum.label) != "undefined") {
+
+          if (hasLabel || textLabel) {
             g.append('text')
               .attr("class", "timeline-label")
               .attr("transform", "translate("+ 0 +","+ (itemHeight - 5 + margin.top + (itemHeight+5) * yAxisMapping[index])+")")
-              .text(datum.label);
+              .text(hasLabel ? datum.label : datum.id);
           }
           
           if (typeof(datum.icon) != "undefined") {
@@ -204,6 +207,9 @@
       return timeline;
     };
 
-    return timeline;
+    timeline.label = function () {
+      textLabel = !textLabel;
+      return timeline;
+    }
   };
 })();
