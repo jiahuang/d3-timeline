@@ -9,12 +9,12 @@ for a dataset that looks like
 
 ```js
 var testData = [
-  {id: "person a", times: [
+  {label: "person a", times: [
     {"starting_time": 1355752800000, "ending_time": 1355759900000}, 
     {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
-  {id: "person b", times: [
+  {label: "person b", times: [
     {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
-  {id: "person c", times: [
+  {label: "person c", times: [
     {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
   ];
 ```
@@ -42,8 +42,9 @@ And a pesudo-gantt chart thingy
 
 And icons
 
-![Icon chart](https://raw.github.com/ryepdx/d3-timeline/master/examples/timeline4.png
+![Icon chart](https://raw.github.com/jiahuang/d3-timeline/master/examples/timeline4.png
 )
 
-
 It can even do things on hover and click. For when someone accidentally mouses over your chart.
+
+Look at the [examples][https://github.com/jiahuang/d3-timeline/blob/master/examples/example.html] for more details.
