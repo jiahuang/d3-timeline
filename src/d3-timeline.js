@@ -19,6 +19,7 @@
         margin = {left: 30, right:30, top: 30, bottom:30},
         stacked = false,
         textLabel = false,
+        iconLabel = false,
         itemHeight = 20
       ;
 
@@ -110,6 +111,15 @@
               .attr("transform", "translate("+ 0 +","+ (itemHeight - 5 + margin.top + (itemHeight+5) * yAxisMapping[datum.id])+")")
               .text(datum.id);
           }
+          
+          if (iconLabel) {
+            g.append('image')
+              .attr("class", "timeline-label")
+              .attr("transform", "translate("+ 0 +","+ (itemHeight + 10 + (itemHeight+5) * yAxisMapping[datum.id])+")")
+              .attr("xlink:href", datum.icon)
+              .attr("width", margin.left)
+              .attr("height", itemHeight);
+          }
 
           function getStackPosition(d, i) {
             if (stacked) {
@@ -199,6 +209,11 @@
     timeline.label = function () {
       textLabel = !textLabel;
       return timeline;
+    }
+    
+    timeline.icons = function () {
+        iconLabel = !iconLabel;
+        return timeline;
     }
 
     return timeline;

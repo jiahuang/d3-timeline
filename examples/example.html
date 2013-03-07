@@ -38,9 +38,9 @@
   <script type="text/javascript">
     window.onload = function() {
       var testData = [
-        {id: "person a", times: [{"starting_time": 1355752800000, "ending_time": 1355759900000}, {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
-        {id: "person b", times: [{"starting_time": 1355759910000, "ending_time": 1355761900000}, ]},
-        {id: "person c", times: [{"starting_time": 1355761910000, "ending_time": 1355763910000}]},
+        {id: "person a", icon: "jackie.png", times: [{"starting_time": 1355752800000, "ending_time": 1355759900000}, {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
+        {id: "person b", icon: "troll.png", times: [{"starting_time": 1355759910000, "ending_time": 1355761900000}, ]},
+        {id: "person c", icon: "wat.png", times: [{"starting_time": 1355761910000, "ending_time": 1355763910000}]},
       ];
 
       var width = 500;
@@ -101,11 +101,26 @@
         var svg = d3.select("#timeline4").append("svg").attr("height", 300).attr("width", width)
           .datum(testData).call(chart);
       }
+      
+      function timelineStackedIcons() {
+        var chart = d3.timeline()
+          .width(width)
+          .height(300)
+          .beginning(1355752800000) // we can optionally add beginning and ending times
+          .ending(1355774400000)    // this will speed up the rendering process
+          .stack() // toggles graph stacking
+          .icons() // toggles icon labels
+          .margin({left:70, right:30, top:30, bottom:30})
+          ;
+        var svg = d3.select("#timeline5").append("svg").attr("height", 300).attr("width", width)
+          .datum(testData).call(chart);
+      }
 
       timelineRect();
       timelineCircle();
       timelineHover();
       timelineStacked();
+      timelineStackedIcons();
     }
   </script>
 </head>
@@ -129,6 +144,10 @@
   <div>
     <h3>We can add some labels and stack the timeline</h3>
     <div id="timeline4"></div>
+  </div>
+  <div>
+    <h3>We can also use icons</h3>
+    <div id="timeline5"></div>
   </div>
 
 </body>
