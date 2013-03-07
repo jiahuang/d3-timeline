@@ -89,15 +89,15 @@
           // datum is the id object
             var div = $('#hoverRes');
             var colors = chart.colors();
-            div.find('.coloredDiv').css('background-color', colors(datum.id))
-            div.find('#name').text(datum.id);
+            div.find('.coloredDiv').css('background-color', colors(i))
+            div.find('#name').text(datum.label);
           })
           .click(function (d, i, datum) {
-            alert(datum.id);
+            alert(datum.label);
           });
 
         var svg = d3.select("#timeline3").append("svg").attr("height", 100).attr("width", width)
-          .datum(testData).call(chart);
+          .datum(labelTestData).call(chart);
       }
 
       function timelineStacked() {
