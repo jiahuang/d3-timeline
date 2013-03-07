@@ -106,10 +106,10 @@
             .attr("height", itemHeight)
             .style("fill", colorCycle(index))
             .on("mousemove", function (d, i) {
-              hover(d, i, datum);
+              hover(d, index, datum);
             })
             .on("click", function (d, i) {
-              click(d, i, datum);
+              click(d, index, datum);
             })
           ;
 
