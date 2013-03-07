@@ -19,6 +19,7 @@
         margin = {left: 30, right:30, top: 30, bottom:30},
         stacked = false,
         textLabel = false,
+        rotateTicks = false,
         itemHeight = 20
       ;
 
@@ -76,6 +77,15 @@
         .attr("class", "axis")
         .attr("transform", "translate(" + 0 +","+(margin.top + (itemHeight +5) * maxStack)+")")
         .call(xAxis);
+        
+      if (rotateTicks) {
+        g.selectAll("text")
+          .attr("transform", function(d) {
+            return "rotate(" + rotateTicks + ")translate("
+              + (this.getBBox().width/2+10) + ","
+              + this.getBBox().height/2 + ")";
+          });
+      }
 
       // draw the chart
       g.each(function(d, i) {
@@ -210,6 +220,11 @@
     timeline.label = function () {
       textLabel = !textLabel;
       return timeline;
+    }
+    
+    timeline.rotateTicks = function (degrees) {
+        rotateTicks = degrees;
+        return timeline;
     }
     
     return timeline;
