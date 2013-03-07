@@ -45,6 +45,11 @@ And icons
 ![Icon chart](https://raw.github.com/jiahuang/d3-timeline/master/examples/timeline4.png
 )
 
+And tick label rotation
+
+![Rotated ticks chart](https://raw.github.com/ryepdx/d3-timeline/master/examples/timeline5.png
+)
+
 It can even do things on hover and click. For when someone accidentally mouses over your chart.
 
 Look at the [examples](https://github.com/jiahuang/d3-timeline/blob/master/examples/example.html) for more details.
