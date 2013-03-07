@@ -35,8 +35,8 @@
           d.forEach(function (datum, index) {
 
             // create y mapping for stacked graph
-            if (stacked && Object.keys(yAxisMapping).indexOf(datum.id) == -1) {
-              yAxisMapping[datum.id] = maxStack;
+            if (stacked && Object.keys(yAxisMapping).indexOf(index) == -1) {
+              yAxisMapping[index] = maxStack;
               maxStack++;
             }
 
@@ -81,6 +81,7 @@
       g.each(function(d, i) {
         d.forEach( function(datum, index){
           var data = datum.times;
+          var hasLabel = (typeof(datum.label) != "undefined");
 
           g.selectAll("svg").data(data).enter()
             .append(display)
@@ -93,7 +94,7 @@
             .attr("cx", getXPos)
             .attr("r", itemHeight/2)
             .attr("height", itemHeight)
-            .style("fill", colorCycle(datum.id))
+            .style("fill", colorCycle(index))
             .on("mousemove", function (d, i) {
               hover(d, i, datum);
             })
@@ -104,16 +105,26 @@
 
           // add the label
           // TODO: this doesn't work with something that is stacked
-          if (textLabel) {
+
+          if (hasLabel || textLabel) {
             g.append('text')
               .attr("class", "timeline-label")
-              .attr("transform", "translate("+ 0 +","+ (itemHeight - 5 + margin.top + (itemHeight+5) * yAxisMapping[datum.id])+")")
-              .text(datum.id);
+              .attr("transform", "translate("+ 0 +","+ (itemHeight - 5 + margin.top + (itemHeight+5) * yAxisMapping[index])+")")
+              .text(hasLabel ? datum.label : datum.id);
+          }
+          
+          if (typeof(datum.icon) != "undefined") {
+            g.append('image')
+              .attr("class", "timeline-label")
+              .attr("transform", "translate("+ 0 +","+ (itemHeight + 10 + (itemHeight+5) * yAxisMapping[index])+")")
+              .attr("xlink:href", datum.icon)
+              .attr("width", margin.left)
+              .attr("height", itemHeight);
           }
 
           function getStackPosition(d, i) {
             if (stacked) {
-              return margin.top + (itemHeight+5) * yAxisMapping[datum.id];
+              return margin.top + (itemHeight+5) * yAxisMapping[index];
             } 
             return margin.top;
           }
@@ -200,7 +211,7 @@
       textLabel = !textLabel;
       return timeline;
     }
-
+    
     return timeline;
   };
 })();

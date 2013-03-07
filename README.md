@@ -40,4 +40,10 @@ And a pesudo-gantt chart thingy
 ![Gantt chart](https://raw.github.com/jiahuang/d3-timeline/master/examples/timeline3.png
 )
 
+And icons
+
+![Icon chart](https://raw.github.com/ryepdx/d3-timeline/master/examples/timeline4.png
+)
+
+
 It can even do things on hover and click. For when someone accidentally mouses over your chart.
