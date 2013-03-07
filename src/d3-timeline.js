@@ -211,5 +211,7 @@
       textLabel = !textLabel;
       return timeline;
     }
+    
+    return timeline;
   };
 })();
