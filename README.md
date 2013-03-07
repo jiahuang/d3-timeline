@@ -47,4 +47,4 @@ And icons
 
 It can even do things on hover and click. For when someone accidentally mouses over your chart.
 
-Look at the [examples][https://github.com/jiahuang/d3-timeline/blob/master/examples/example.html] for more details.
+Look at the [examples](https://github.com/jiahuang/d3-timeline/blob/master/examples/example.html) for more details.
