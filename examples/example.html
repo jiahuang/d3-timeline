@@ -135,6 +135,16 @@
         var svg = d3.select("#timeline6").append("svg").attr("height", 100).attr("width", width)
           .datum(testData).call(chart);
       }
+      
+      function timelineScroll() {
+        var chart = d3.timeline()
+          .width(width*10)
+          .height(100)
+          .scroll();
+
+        var svg = d3.select("#timeline7").append("svg").attr("height", 100).attr("width", width)
+          .datum(testData).call(chart);
+      }
 
       timelineRect();
       timelineCircle();
@@ -142,6 +152,7 @@
       timelineStacked();
       timelineStackedIcons();
       timelineRotatedTicks();
+      timelineScroll();
     }
   </script>
 </head>
@@ -167,13 +178,18 @@
     <div id="timeline4"></div>
   </div>
   <div>
-    <h3>We can also use icons</h3>
+    <h3>We can use icons</h3>
     <div id="timeline5"></div>
   </div>
   
   <div>
-    <h3>We can also rotate tick mark labels</h3>
+    <h3>We can rotate tick mark labels</h3>
     <div id="timeline6"></div>  
+  </div>
+
+  <div>
+    <h3>We can also scroll</h3>
+    <div id="timeline7"></div>  
   </div>
 
 </body>
