@@ -52,4 +52,6 @@ And tick label rotation
 
 It can even do things on hover and click. For when someone accidentally mouses over your chart.
 
+And for your *really* long charts, it supports scrolling.
+
 Look at the [examples](https://github.com/jiahuang/d3-timeline/blob/master/examples/example.html) for more details.
