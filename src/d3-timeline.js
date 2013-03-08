@@ -23,7 +23,8 @@
         itemHeight = 20
       ;
 
-    function timeline (g) {
+    function timeline (gParent) {
+      var g = gParent.append("g");
       var yAxisMapping = {},
         maxStack = 1,
         minTime = 0,
@@ -114,17 +115,15 @@
           ;
 
           // add the label
-          // TODO: this doesn't work with something that is stacked
-
           if (hasLabel || textLabel) {
-            g.append('text')
+            gParent.append('text')
               .attr("class", "timeline-label")
               .attr("transform", "translate("+ 0 +","+ (itemHeight - 5 + margin.top + (itemHeight+5) * yAxisMapping[index])+")")
               .text(hasLabel ? datum.label : datum.id);
           }
           
           if (typeof(datum.icon) != "undefined") {
-            g.append('image')
+            gParent.append('image')
               .attr("class", "timeline-label")
               .attr("transform", "translate("+ 0 +","+ (itemHeight + 10 + (itemHeight+5) * yAxisMapping[index])+")")
               .attr("xlink:href", datum.icon)
@@ -140,9 +139,24 @@
           }
         });
       });
+      
+      var gParentWidth = gParent[0][0].getBoundingClientRect().width;
+      
+      if (width > gParentWidth) {
+        var zoom = d3.behavior.zoom().x(xScale).on("zoom", move);
+      
+        function move() {
+          var x = Math.min(0, Math.max(gParentWidth - width, d3.event.translate[0]));
+          zoom.translate([x, 0]);
+          g.attr("transform", "translate(" + x + ",0)");
+        }
+        gParent
+          .attr("class", "scrollable")
+          .call(zoom);
+      }
 
       function getXPos(d, i) {
-        return margin.left + (d.starting_time - beginning)* scaleFactor;
+        return margin.left + (d.starting_time - beginning) * scaleFactor;
       }
     }
 
