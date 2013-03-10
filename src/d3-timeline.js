@@ -150,7 +150,7 @@
           var x = Math.min(0, Math.max(gParentWidth - width, d3.event.translate[0]));
           zoom.translate([x, 0]);
           g.attr("transform", "translate(" + x + ",0)");
-          scroll(xScale.invert(x*scaleFactor));
+          scroll(x*scaleFactor, xScale);
         }
         gParent
           .attr("class", "scrollable")
