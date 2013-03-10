@@ -5,6 +5,7 @@
 
     var hover = function () {}, 
         click = function () {},
+        scroll = function () {},
         orient = "bottom",
         width = 500,
         height = 100,
@@ -149,6 +150,7 @@
           var x = Math.min(0, Math.max(gParentWidth - width, d3.event.translate[0]));
           zoom.translate([x, 0]);
           g.attr("transform", "translate(" + x + ",0)");
+          scroll(xScale.invert(x*scaleFactor));
         }
         gParent
           .attr("class", "scrollable")
@@ -207,6 +209,12 @@
       click = clickFunc;
       return timeline;
     };
+    
+    timeline.scroll = function (scrollFunc) {
+      if (!arguments.length) return scroll;
+      scroll = scrollFunc;
+      return timeline;
+    }
 
     timeline.colors = function (colorFormat) {
       if (!arguments.length) return colorCycle;
