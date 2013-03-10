@@ -118,14 +118,14 @@
           if (hasLabel || textLabel) {
             gParent.append('text')
               .attr("class", "timeline-label")
-              .attr("transform", "translate("+ 0 +","+ (itemHeight - 5 + margin.top + (itemHeight+5) * yAxisMapping[index])+")")
+              .attr("transform", "translate("+ 0 +","+ (itemHeight/2 + margin.top + (itemHeight+5) * yAxisMapping[index])+")")
               .text(hasLabel ? datum.label : datum.id);
           }
           
           if (typeof(datum.icon) != "undefined") {
             gParent.append('image')
               .attr("class", "timeline-label")
-              .attr("transform", "translate("+ 0 +","+ (itemHeight + 10 + (itemHeight+5) * yAxisMapping[index])+")")
+              .attr("transform", "translate("+ 0 +","+ (margin.top + (itemHeight+5) * yAxisMapping[index])+")")
               .attr("xlink:href", datum.icon)
               .attr("width", margin.left)
               .attr("height", itemHeight);
@@ -171,6 +171,12 @@
       orient = orientation;
       return timeline;
     };
+    
+    timeline.itemHeight = function (h) {
+        if (!arguments.length) return itemHeight;
+        itemHeight = h;
+        return timeline;
+    }
 
     timeline.height = function (h) {
       if (!arguments.length) return height;
