@@ -82,7 +82,7 @@
 
       function timelineHover() {
         var chart = d3.timeline()
-          .width(width)
+          .width(width*4)
           .height(100)
           .hover(function (d, i, datum) { 
           // d is the current time object. i is the index during d3 rendering
@@ -94,6 +94,9 @@
           })
           .click(function (d, i, datum) {
             alert(datum.label);
+          })
+          .scroll(function (x, scale) {
+            $("#scrolled_date").text(scale.invert(x) + " to " + scale.invert(x+width));
           });
 
         var svg = d3.select("#timeline3").append("svg").attr("height", 100).attr("width", width)
@@ -155,11 +158,12 @@
     <div id="timeline2"></div>
   </div>
   <div>
-    <h3>A timeline with hover & click events</h3>
+    <h3>A timeline with hover, click, and scroll events</h3>
     <div id="timeline3"></div>
     <div id="hoverRes">
       <div class="coloredDiv"></div>
       <div id="name"></div>
+      <div id="scrolled_date"></div>
     </div>
   </div>
   <div>
