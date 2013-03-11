@@ -8,7 +8,7 @@
         scroll = function () {},
         orient = "bottom",
         width = 500,
-        height = 100,
+        height = null,
         tickFormat = { format: d3.time.format("%I %p"), 
           tickTime: d3.time.hours, 
           tickNumber: 1, 
@@ -155,6 +155,12 @@
         gParent
           .attr("class", "scrollable")
           .call(zoom);
+      }
+      
+      if (height == null) {
+          var gSize = g[0][0].getBoundingClientRect();
+          height = gSize.height + gSize.top 
+            - gParent[0][0].getBoundingClientRect().top;
       }
 
       function getXPos(d, i) {
