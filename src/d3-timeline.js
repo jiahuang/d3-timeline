@@ -21,7 +21,8 @@
         stacked = false,
         textLabel = false,
         rotateTicks = false,
-        itemHeight = 20
+        itemHeight = 20,
+        itemMargin = 5
       ;
 
     function timeline (gParent) {
@@ -77,17 +78,8 @@
 
       g.append("g")
         .attr("class", "axis")
-        .attr("transform", "translate(" + 0 +","+(margin.top + (itemHeight +5) * maxStack)+")")
+        .attr("transform", "translate(" + 0 +","+(margin.top + (itemHeight + itemMargin) * maxStack)+")")
         .call(xAxis);
-        
-      if (rotateTicks) {
-        g.selectAll("text")
-          .attr("transform", function(d) {
-            return "rotate(" + rotateTicks + ")translate("
-              + (this.getBBox().width/2+10) + ","
-              + this.getBBox().height/2 + ")";
-          });
-      }
 
       // draw the chart
       g.each(function(d, i) {
@@ -119,14 +111,14 @@
           if (hasLabel || textLabel) {
             gParent.append('text')
               .attr("class", "timeline-label")
-              .attr("transform", "translate("+ 0 +","+ (itemHeight/2 + margin.top + (itemHeight+5) * yAxisMapping[index])+")")
+              .attr("transform", "translate("+ 0 +","+ (itemHeight/2 + margin.top + (itemHeight + itemMargin) * yAxisMapping[index])+")")
               .text(hasLabel ? datum.label : datum.id);
           }
           
           if (typeof(datum.icon) != "undefined") {
             gParent.append('image')
               .attr("class", "timeline-label")
-              .attr("transform", "translate("+ 0 +","+ (margin.top + (itemHeight+5) * yAxisMapping[index])+")")
+              .attr("transform", "translate("+ 0 +","+ (margin.top + (itemHeight + itemMargin) * yAxisMapping[index])+")")
               .attr("xlink:href", datum.icon)
               .attr("width", margin.left)
               .attr("height", itemHeight);
@@ -134,7 +126,7 @@
 
           function getStackPosition(d, i) {
             if (stacked) {
-              return margin.top + (itemHeight+5) * yAxisMapping[index];
+              return margin.top + (itemHeight + itemMargin) * yAxisMapping[index];
             } 
             return margin.top;
           }
@@ -142,7 +134,6 @@
       });
       
       var gParentWidth = gParent[0][0].getBoundingClientRect().width;
-      
       if (width > gParentWidth) {
         var zoom = d3.behavior.zoom().x(xScale).on("zoom", move);
       
@@ -157,10 +148,16 @@
           .call(zoom);
       }
       
-      if (height == null) {
-          var gSize = g[0][0].getBoundingClientRect();
-          height = gSize.height + gSize.top 
-            - gParent[0][0].getBoundingClientRect().top;
+      var gSize = g[0][0].getBoundingClientRect();
+      height = gSize.height + gSize.top - gParent[0][0].getBoundingClientRect().top;
+      
+      if (rotateTicks) {
+        g.selectAll("text")
+          .attr("transform", function(d) {
+            return "rotate(" + rotateTicks + ")translate("
+              + (this.getBBox().width/2+10) + ","
+              + this.getBBox().height/2 + ")";
+          });
       }
 
       function getXPos(d, i) {
@@ -181,15 +178,19 @@
     };
     
     timeline.itemHeight = function (h) {
-        if (!arguments.length) return itemHeight;
-        itemHeight = h;
-        return timeline;
+      if (!arguments.length) return itemHeight;
+      itemHeight = h;
+      return timeline;
     }
 
-    timeline.height = function (h) {
-      if (!arguments.length) return height;
-      height = h;
+    timeline.itemMargin = function (h) {
+      if (!arguments.length) return itemMargin;
+      itemMargin = h;
       return timeline;
+    }
+
+    timeline.height = function () {
+      return height;
     };
 
     timeline.width = function (w) {
