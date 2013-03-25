@@ -7,7 +7,7 @@
         click = function () {},
         scroll = function () {},
         orient = "bottom",
-        width = 500,
+        width = null,
         height = null,
         tickFormat = { format: d3.time.format("%I %p"), 
           tickTime: d3.time.hours, 
@@ -19,7 +19,6 @@
         ending = 0,
         margin = {left: 30, right:30, top: 30, bottom:30},
         stacked = false,
-        textLabel = false,
         rotateTicks = false,
         itemHeight = 20,
         itemMargin = 5
@@ -27,11 +26,16 @@
 
     function timeline (gParent) {
       var g = gParent.append("g");
+      var gParentSize = gParent[0][0].getBoundingClientRect();
+      var gParentItem = d3.select(gParent[0][0]);
+
       var yAxisMapping = {},
         maxStack = 1,
         minTime = 0,
         maxTime = 0;
       
+      setWidth();
+
       // check how many stacks we're gonna need
       // do this here so that we can draw the axis before the graph
       if (stacked || (ending == 0 && beginning == 0)) {
@@ -108,7 +112,7 @@
           ;
 
           // add the label
-          if (hasLabel || textLabel) {
+          if (hasLabel) {
             gParent.append('text')
               .attr("class", "timeline-label")
               .attr("transform", "translate("+ 0 +","+ (itemHeight/2 + margin.top + (itemHeight + itemMargin) * yAxisMapping[index])+")")
@@ -133,12 +137,11 @@
         });
       });
       
-      var gParentWidth = gParent[0][0].getBoundingClientRect().width;
-      if (width > gParentWidth) {
+      if (width > gParentSize.width) {
         var zoom = d3.behavior.zoom().x(xScale).on("zoom", move);
       
         function move() {
-          var x = Math.min(0, Math.max(gParentWidth - width, d3.event.translate[0]));
+          var x = Math.min(0, Math.max(gParentSize.width - width, d3.event.translate[0]));
           zoom.translate([x, 0]);
           g.attr("transform", "translate(" + x + ",0)");
           scroll(x*scaleFactor, xScale);
@@ -148,20 +151,56 @@
           .call(zoom);
       }
       
-      var gSize = g[0][0].getBoundingClientRect();
-      height = gSize.height + gSize.top - gParent[0][0].getBoundingClientRect().top;
-      
       if (rotateTicks) {
         g.selectAll("text")
           .attr("transform", function(d) {
             return "rotate(" + rotateTicks + ")translate("
-              + (this.getBBox().width/2+10) + ","
+              + (this.getBBox().width/2+10) + "," // TODO: change this 10
               + this.getBBox().height/2 + ")";
           });
       }
 
+      var gSize = g[0][0].getBoundingClientRect();
+      setHeight();
+
       function getXPos(d, i) {
         return margin.left + (d.starting_time - beginning) * scaleFactor;
+      }
+
+      function setHeight() {
+        console.log("hit", height, d3.select(gParent[0][0]).attr("height"));
+
+        if (!height && !gParentItem.attr("height")) {
+          if (itemHeight) {
+            // set height based off of item height
+            height = gSize.height + gSize.top - gParentSize.top;
+            // set bounding rectangle height
+            d3.select(gParent[0][0]).attr("height", height);
+          } else {
+            throw "height of the timeline is not set";
+          }
+        } else {
+          if (!height) {
+            height = gParentItem.attr("height");
+          } else {
+            gParentItem.attr("height", height);
+          }
+        }
+      }
+
+      function setWidth() {
+        console.log("set width");
+        if (!width && !gParentSize.width) {
+          throw "width of the timeline is not set";
+        } else if (!(width && gParentSize.width)) {
+          console.log("test");
+          if (!width) {
+            width = gParentItem.attr("width");
+          } else {
+            gParentItem.attr("width", width);
+          }
+        }
+        // if both are set, do nothing
       }
     }
 
@@ -189,8 +228,10 @@
       return timeline;
     }
 
-    timeline.height = function () {
-      return height;
+    timeline.height = function (h) {
+      if (!arguments.length) return height;
+      height = h;
+      return timeline;
     };
 
     timeline.width = function (w) {
@@ -247,20 +288,15 @@
       return timeline;
     };
 
+    timeline.rotateTicks = function (degrees) {
+      rotateTicks = degrees;
+      return timeline;
+    }
+
     timeline.stack = function () {
       stacked = !stacked;
       return timeline;
     };
-
-    timeline.label = function () {
-      textLabel = !textLabel;
-      return timeline;
-    }
-    
-    timeline.rotateTicks = function (degrees) {
-        rotateTicks = degrees;
-        return timeline;
-    }
     
     return timeline;
   };
