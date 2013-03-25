@@ -168,8 +168,6 @@
       }
 
       function setHeight() {
-        console.log("hit", height, d3.select(gParent[0][0]).attr("height"));
-
         if (!height && !gParentItem.attr("height")) {
           if (itemHeight) {
             // set height based off of item height
@@ -189,11 +187,9 @@
       }
 
       function setWidth() {
-        console.log("set width");
         if (!width && !gParentSize.width) {
           throw "width of the timeline is not set";
         } else if (!(width && gParentSize.width)) {
-          console.log("test");
           if (!width) {
             width = gParentItem.attr("width");
           } else {
