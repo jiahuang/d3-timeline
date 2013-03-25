@@ -101,7 +101,7 @@ sets the margin between the data series in the timeline. Defaults to 5px.
 sets the margin of the entire timeline inside of the svg. Defaults to 30px all around.
 
 ###.display("circle" | "rect")
-Displays the data series as either circles or rectangles. Circles are placed in the middle of the spanned time. Defaults to "rect".
+Displays the data series as either circles or rectangles. Defaults to "rect".
 
 ###.tickFormat({format: , tickTime: , tickNumber: , tickSize: })
 sets the formatting of the ticks in the timeline. Defaults to 
