@@ -166,3 +166,6 @@ d3.timeline()
     // scale is the scale of the axis used
   });
 ```
+
+##License 
+MIT
