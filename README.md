@@ -1,4 +1,7 @@
 #d3-timeline
+
+Forked by Phoebe Bright 16May13 in order to make changes so it is more usable when using timelines across weeks and months
+
 A simple d3 timeline plugin.
 
 Get something that looks like
