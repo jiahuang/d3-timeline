@@ -3,7 +3,9 @@
   d3.timeline = function() {
     var DISPLAY_TYPES = ["circle", "rect"];
 
-    var hover = function () {}, 
+    var hover = function () {},
+        mouseover = function () {},
+        mouseout = function () {},
         click = function () {},
         scroll = function () {},
         orient = "bottom",
@@ -105,6 +107,12 @@
             .style("fill", colorCycle(index))
             .on("mousemove", function (d, i) {
               hover(d, index, datum);
+            })
+            .on("mouseover", function (d, i) {
+              mouseover(d, i, datum);
+            })
+            .on("mouseout", function (d, i) {
+              mouseout(d, i, datum);
             })
             .on("click", function (d, i) {
               click(d, index, datum);
@@ -251,6 +259,18 @@
     timeline.hover = function (hoverFunc) {
       if (!arguments.length) return hover;
       hover = hoverFunc;
+      return timeline;
+    };
+
+    timeline.mouseover = function (mouseoverFunc) {
+      if (!arguments.length) return mouseoverFunc;
+      mouseover = mouseoverFunc;
+      return timeline;
+    };
+
+    timeline.mouseout = function (mouseoverFunc) {
+      if (!arguments.length) return mouseoverFunc;
+      mouseout = mouseoverFunc;
       return timeline;
     };
 

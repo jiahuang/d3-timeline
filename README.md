@@ -133,11 +133,35 @@ sets the time that the timeline should end. If `beginning` and `ending` are not 
 Takes in no arguments. Toggles the stacking/unstacking of data series in the timeline. Needs to be true in order for icons and labels to show up properly.
 
 ###.hover(callback)
-takes in a callback called on mouseover of the timeline data. Example
+takes in a callback called on mousemove of the timeline data. Example
 
 ```js
 d3.timeline()
   .hover(function (d, i, datum) { 
+    // d is the current rendering object
+    // i is the index during d3 rendering
+    // datum is the data object
+  });
+```
+
+###.mouseon(callback)
+takes in a callback called on mouseon of the timeline data. Example
+
+```js
+d3.timeline()
+  .mouseon(function (d, i, datum) {
+    // d is the current rendering object
+    // i is the index during d3 rendering
+    // datum is the data object
+  });
+```
+
+###.mouseout(callback)
+takes in a callback called on mouseout of the timeline data. Example
+
+```js
+d3.timeline()
+  .mouseout(function (d, i, datum) {
     // d is the current rendering object
     // i is the index during d3 rendering
     // datum is the data object
