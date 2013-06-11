@@ -23,7 +23,8 @@
         stacked = false,
         rotateTicks = false,
         itemHeight = 20,
-        itemMargin = 5
+        itemMargin = 5,
+        showTodayLine = false
       ;
 
     function timeline (gParent) {
@@ -171,6 +172,18 @@
       var gSize = g[0][0].getBoundingClientRect();
       setHeight();
 
+      if( showTodayLine )
+      {
+        var todayLine = xScale(new Date());
+        gParent.append("svg:line")
+          .attr("x1", todayLine)
+          .attr("y1", 25)
+          .attr("x2", todayLine)
+          .attr("y2", height)
+          .style("stroke", "rgb(6,120,155)")
+          .style("stroke-width", 1); 
+      }
+
       function getXPos(d, i) {
         return margin.left + (d.starting_time - beginning) * scaleFactor;
       }
@@ -311,6 +324,11 @@
 
     timeline.stack = function () {
       stacked = !stacked;
+      return timeline;
+    };
+
+    timeline.showToday = function () {
+      showTodayLine = !showTodayLine;
       return timeline;
     };
     
