@@ -212,7 +212,7 @@
 
       function setWidth() {
         if (!width && !gParentSize.width) {
-          throw "width of the timeline is not set";
+          throw "width of the timeline is not set. As of Firefox 27, timeline().with(x) needs to be explicitly set in order to render";
         } else if (!(width && gParentSize.width)) {
           if (!width) {
             width = gParentItem.attr("width");
