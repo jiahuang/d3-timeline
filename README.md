@@ -132,6 +132,22 @@ sets the time that the timeline should end. If `beginning` and `ending` are not 
 ###.stack()
 Takes in no arguments. Toggles the stacking/unstacking of data series in the timeline. Needs to be true in order for icons and labels to show up properly.
 
+###.showToday()
+Takes in no arguments. Toggles a verticle line showing the current Date.now() time. Uses showTodayFormat for the line formatting.
+
+###.showTodayFormat({marginTop: , marginBottom: , width: , color: })
+Sets the formatting of the showToday line. Color cycle can also be of the format `rgb(x, y, z)`.
+
+Defaults to
+```js
+{
+  marginTop: 25, 
+  marginBottom: 0, 
+  width: 1, 
+  color: colorCycle
+}
+```
+
 ###.hover(callback)
 takes in a callback called on mousemove of the timeline data. Example
 
