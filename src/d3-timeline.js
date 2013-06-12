@@ -25,6 +25,7 @@
         itemHeight = 20,
         itemMargin = 5,
         showTodayLine = false
+        showTodayFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle}
       ;
 
     function timeline (gParent) {
@@ -177,11 +178,11 @@
         var todayLine = xScale(new Date());
         gParent.append("svg:line")
           .attr("x1", todayLine)
-          .attr("y1", 25)
+          .attr("y1", showTodayFormat.marginTop)
           .attr("x2", todayLine)
-          .attr("y2", height)
-          .style("stroke", "rgb(6,120,155)")
-          .style("stroke-width", 1); 
+          .attr("y2", height - showTodayFormat.marginBottom)
+          .style("stroke", showTodayFormat.color)//"rgb(6,120,155)")
+          .style("stroke-width", showTodayFormat.width); 
       }
 
       function getXPos(d, i) {
@@ -331,6 +332,12 @@
       showTodayLine = !showTodayLine;
       return timeline;
     };
+
+    timeline.showTodayFormat = function(todayFormat) {
+      if (!arguments.length) return showTodayFormat;
+      showTodayFormat = todayFormat;
+      return timeline;
+    }
     
     return timeline;
   };
