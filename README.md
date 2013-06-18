@@ -150,7 +150,7 @@ var testData = [
 ```
 Your chart's bar colors will be determined based on the value of the fruit property:
 
-![Color Timeline](https://raw.github.com/jiahuang/d3-timeline/master/examples/timeline6.png)
+![Color Timeline](examples/timeline6.png)
 
 
 ###.beginning(date)
