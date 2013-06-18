@@ -108,7 +108,12 @@
             .attr("cx", getXPos)
             .attr("r", itemHeight/2)
             .attr("height", itemHeight)
-            .style("fill", function(d, i){ if( colorPropertyName ){ return colorCycle( datum[colorPropertyName] ) } return colorCycle(index);  })
+            .style("fill", function(d, i){ 
+              if( colorPropertyName ){ 
+                return colorCycle( datum[colorPropertyName] ) 
+              } 
+              return colorCycle(index);  
+            })
             .on("mousemove", function (d, i) {
               hover(d, index, datum);
             })
