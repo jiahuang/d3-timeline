@@ -55,6 +55,16 @@
         {icon: "wat.png", times: [{"starting_time": 1355761910000, "ending_time": 1355763910000}]},
       ];
 
+      var testDataWithColor = [
+        {label: "fruit 1", fruit: "orange", times: [
+          {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
+        {label: "fruit 2", fruit: "apple", times: [
+          {"starting_time": 1355752800000, "ending_time": 1355759900000}, 
+          {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
+        {label: "fruit3", fruit: "lemon", times: [
+          {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
+        ];
+
       var width = 500;
       function timelineRect() {
         var chart = d3.timeline();
@@ -120,11 +130,25 @@
           .datum(testData).call(chart);
       }
 
+      function timelineRectColors() {
+        
+        var colorScale = d3.scale.ordinal().range(['#6b0000','#ef9b0f','#ffee00'])
+            .domain(['apple','orange','lemon']);
+
+        var chart = d3.timeline()
+            .colors( colorScale )
+            .colorProperty('fruit');
+
+        var svg = d3.select("#timelineColors").append("svg").attr("width", width)
+          .datum(testDataWithColor).call(chart);
+      }
+
       timelineRect();
       timelineCircle();
       timelineHover();
       timelineStackedIcons();
       timelineRotatedTicks();
+      timelineRectColors();
     }
   </script>
 </head>
@@ -154,6 +178,11 @@
   <div>
     <h3>We can also rotate tick mark labels</h3>
     <div id="timeline6"></div>  
+  </div>
+
+  <div>
+    <h3>A timeline with colors mapped from the data</h3>
+    <div id="timelineColors"></div>  
   </div>
 
 </body>
