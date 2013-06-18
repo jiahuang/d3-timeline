@@ -16,6 +16,7 @@
           tickNumber: 1, 
           tickSize: 6 },
         colorCycle = d3.scale.category20(),
+        colorPropertyName = null,
         display = "rect",
         beginning = 0,
         ending = 0,
@@ -107,7 +108,7 @@
             .attr("cx", getXPos)
             .attr("r", itemHeight/2)
             .attr("height", itemHeight)
-            .style("fill", colorCycle(index))
+            .style("fill", function(d, i){ if( colorPropertyName ){ return colorCycle( datum[colorPropertyName] ) } return colorCycle(index);  })
             .on("mousemove", function (d, i) {
               hover(d, index, datum);
             })
@@ -338,6 +339,12 @@
     timeline.showTodayFormat = function(todayFormat) {
       if (!arguments.length) return showTodayFormat;
       showTodayFormat = todayFormat;
+      return timeline;
+    }
+
+    timeline.colorProperty = function(colorProp) {
+      if (!arguments.length) return colorPropertyName;
+      colorPropertyName = colorProp;
       return timeline;
     }
     

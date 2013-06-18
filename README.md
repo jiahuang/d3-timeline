@@ -121,7 +121,37 @@ sets the degree of rotation of the tickmarks. Defaults to no rotation (0 degrees
 sets the placement of the axis. Defaults to bottom.
 
 ###.colors(callback)
-sets the rotation of color for the data series in the timeline. Defaults to `d3.scale.category20()`.
+sets the d3 color scale the data series in the timeline. Defaults to `d3.scale.category20()`.
+
+###.colorProperty(propertyName)
+sets the data item property name that maps your data items to your color scale. For example if you set your chart's `colors()` and `colorsProperty()` as follows:
+
+```js
+var colorScale = d3.scale.ordinal().range(['#6b0000','#ef9b0f','#ffee00'])
+            .domain(['apple','orange','lemon']);
+
+var chart = d3.timeline()
+            .colors( colorScale )
+            .colorProperty('fruit');
+```
+
+And pass this dataset:
+
+```js
+var testData = [
+  {label: "fruit 1", fruit: "orange", times: [
+    {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
+  {label: "fruit 2", fruit: "apple", times: [
+    {"starting_time": 1355752800000, "ending_time": 1355759900000}, 
+    {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
+  {label: "fruit3", fruit: "lemon", times: [
+    {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
+  ];
+```
+Your chart's bar colors will be determined based on the value of the fruit property:
+
+![Color Timeline](examples/timeline6.png)
+
 
 ###.beginning(date)
 sets the time that the timeline should start. If `beginning` and `ending` are not set, the timeline will calculate it based off of the smallest and largest times. 
@@ -133,7 +163,7 @@ sets the time that the timeline should end. If `beginning` and `ending` are not 
 Takes in no arguments. Toggles the stacking/unstacking of data series in the timeline. Needs to be true in order for icons and labels to show up properly.
 
 ###.showToday()
-Takes in no arguments. Toggles a verticle line showing the current Date.now() time. Uses showTodayFormat for the line formatting.
+Takes in no arguments. Toggles a vertical line showing the current Date.now() time. Uses showTodayFormat for the line formatting.
 
 ###.showTodayFormat({marginTop: , marginBottom: , width: , color: })
 Sets the formatting of the showToday line. Color cycle can also be of the format `rgb(x, y, z)`.
