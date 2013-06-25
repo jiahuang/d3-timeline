@@ -152,6 +152,7 @@ Your chart's bar colors will be determined based on the value of the fruit prope
 
 ![Color Timeline](examples/timeline6.png)
 
+
 ###.beginning(date)
 sets the time that the timeline should start. If `beginning` and `ending` are not set, the timeline will calculate it based off of the smallest and largest times. 
 
