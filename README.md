@@ -103,13 +103,13 @@ sets the margin of the entire timeline inside of the svg. Defaults to 30px all a
 ###.display("circle" | "rect")
 Displays the data series as either circles or rectangles. Defaults to "rect".
 
-###.tickFormat({format: , tickTime: , tickNumber: , tickSize: })
+###.tickFormat({format: , tickTime: , tickInterval: , tickSize: })
 sets the formatting of the ticks in the timeline. Defaults to 
 ```js
 {
   format: d3.time.format("%I %p"), 
   tickTime: d3.time.hours, 
-  tickNumber: 1, 
+  tickInterval: 1, 
   tickSize: 6 
 }
 ```
@@ -161,6 +161,9 @@ sets the time that the timeline should end. If `beginning` and `ending` are not 
 
 ###.stack()
 Takes in no arguments. Toggles the stacking/unstacking of data series in the timeline. Needs to be true in order for icons and labels to show up properly.
+
+###.relativeTime()
+Takes in no arguments. Toggles the calculation and use of relative timestamps. The origin of the timeline will be set to 0 and the starting_time of the first data dictionnary in the data array will be subtracted from every subsequent timestamp.
 
 ###.showToday()
 Takes in no arguments. Toggles a vertical line showing the current Date.now() time. Uses showTodayFormat for the line formatting.
