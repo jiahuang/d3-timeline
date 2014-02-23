@@ -1,5 +1,4 @@
-(function() {
-  
+(function () {
   d3.timeline = function() {
     var DISPLAY_TYPES = ["circle", "rect"];
 
@@ -13,7 +12,7 @@
         height = null,
         tickFormat = { format: d3.time.format("%I %p"), 
           tickTime: d3.time.hours, 
-          tickNumber: 1, 
+          tickInterval: 1, 
           tickSize: 6 },
         colorCycle = d3.scale.category20(),
         colorPropertyName = null,
@@ -23,9 +22,10 @@
         margin = {left: 30, right:30, top: 30, bottom:30},
         stacked = false,
         rotateTicks = false,
+        timeIsRelative = false,
         itemHeight = 20,
         itemMargin = 5,
-        showTodayLine = false
+        showTodayLine = false,
         showTodayFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle}
       ;
 
@@ -42,6 +42,25 @@
       
       setWidth();
 
+      // check if the user wants relative time
+      // if so, substract the first timestamp from each subsequent timestamps
+      if(timeIsRelative){
+        g.each(function (d, i) {
+          d.forEach(function (datum, index) {
+            datum.times.forEach(function (time, j) {
+              if(index==0 && j==0){
+                originTime = time.starting_time;               //Store the timestamp that will serve as origin
+                time.starting_time = 0;                        //Set the origin
+                time.ending_time = time.ending_time - originTime;     //Store the relative time (millis)
+              }else{
+                time.starting_time = time.starting_time - originTime;
+                time.ending_time = time.ending_time - originTime;
+              }
+            });
+          });
+        });
+      }
+
       // check how many stacks we're gonna need
       // do this here so that we can draw the axis before the graph
       if (stacked || (ending == 0 && beginning == 0)) {
@@ -57,7 +76,7 @@
             // figure out beginning and ending times if they are unspecified
             if (ending == 0 && beginning == 0){
               datum.times.forEach(function (time, i) {
-                if (time.starting_time < minTime || minTime == 0)
+                if (time.starting_time < minTime || (minTime == 0 && timeIsRelative == false))
                   minTime = time.starting_time;
                 if (time.ending_time > maxTime)
                   maxTime = time.ending_time;
@@ -83,7 +102,7 @@
         .scale(xScale)
         .orient(orient)
         .tickFormat(tickFormat.format)
-        .ticks(tickFormat.tickTime, tickFormat.tickNumber)
+        .ticks(tickFormat.tickTime, tickFormat.tickInterval)
         .tickSize(tickFormat.tickSize);
 
       g.append("g")
@@ -241,7 +260,7 @@
       if (!arguments.length) return orient;
       orient = orientation;
       return timeline;
-    };
+    }
     
     timeline.itemHeight = function (h) {
       if (!arguments.length) return itemHeight;
@@ -259,49 +278,49 @@
       if (!arguments.length) return height;
       height = h;
       return timeline;
-    };
+    }
 
     timeline.width = function (w) {
       if (!arguments.length) return width;
       width = w;
       return timeline;
-    };
+    }
 
     timeline.display = function (displayType) {
       if (!arguments.length || (DISPLAY_TYPES.indexOf(displayType) == -1)) return display;
       display = displayType;
       return timeline;
-    };
+    }
 
     timeline.tickFormat = function (format) {
       if (!arguments.length) return tickFormat;
       tickFormat = format;
       return timeline;
-    };
+    }
 
     timeline.hover = function (hoverFunc) {
       if (!arguments.length) return hover;
       hover = hoverFunc;
       return timeline;
-    };
+    }
 
     timeline.mouseover = function (mouseoverFunc) {
       if (!arguments.length) return mouseoverFunc;
       mouseover = mouseoverFunc;
       return timeline;
-    };
+    }
 
     timeline.mouseout = function (mouseoverFunc) {
       if (!arguments.length) return mouseoverFunc;
       mouseout = mouseoverFunc;
       return timeline;
-    };
+    }
 
     timeline.click = function (clickFunc) {
       if (!arguments.length) return click;
       click = clickFunc;
       return timeline;
-    };
+    }
     
     timeline.scroll = function (scrollFunc) {
       if (!arguments.length) return scroll;
@@ -313,19 +332,19 @@
       if (!arguments.length) return colorCycle;
       colorCycle = colorFormat;
       return timeline;
-    };
+    }
 
     timeline.beginning = function (b) {
       if (!arguments.length) return beginning;
       beginning = b;
       return timeline;
-    };
+    }
 
     timeline.ending = function (e) {
       if (!arguments.length) return ending;
       ending = e;
       return timeline;
-    };
+    }
 
     timeline.rotateTicks = function (degrees) {
       rotateTicks = degrees;
@@ -335,12 +354,17 @@
     timeline.stack = function () {
       stacked = !stacked;
       return timeline;
-    };
+    }
+
+    timeline.relativeTime = function() {
+      timeIsRelative = !timeIsRelative;
+      return timeline;
+    }
 
     timeline.showToday = function () {
       showTodayLine = !showTodayLine;
       return timeline;
-    };
+    }
 
     timeline.showTodayFormat = function(todayFormat) {
       if (!arguments.length) return showTodayFormat;

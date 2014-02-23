@@ -2,7 +2,7 @@
 <html>
 <head>
   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-  <script src="../lib/d3.v3.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="../src/d3-timeline.js"></script>
 
   <style type="text/css">
@@ -64,6 +64,12 @@
         {label: "fruit3", fruit: "lemon", times: [
           {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
         ];
+      
+      var testDataRelative = [
+        {times: [{"starting_time": 1355752800000, "ending_time": 1355759900000}, {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
+        {times: [{"starting_time": 1355759910000, "ending_time": 1355761900000}]},
+        {times: [{"starting_time": 1355761910000, "ending_time": 1355763910000}]},
+      ];
 
       var width = 500;
       function timelineRect() {
@@ -78,7 +84,7 @@
           .tickFormat( // 
             {format: d3.time.format("%I %p"), 
             tickTime: d3.time.hours, 
-            tickNumber: 1, 
+            tickInterval: 1, 
             tickSize: 30})
           .display("circle"); // toggle between rectangles and circles
 
@@ -142,6 +148,26 @@
         var svg = d3.select("#timelineColors").append("svg").attr("width", width)
           .datum(testDataWithColor).call(chart);
       }
+      
+      
+      function timelineRelativeTime() {
+        //This solution is for relative time is from
+        //http://stackoverflow.com/questions/11286872/how-do-i-make-a-custom-axis-formatter-for-hours-minutes-in-d3-js
+        var formatTime = d3.time.format("%Hh%Mm"),
+            formatMinutes = function(d) { return formatTime(new Date(2012, 0, 1, 0, 0, 0, d)); };   //The intervals are in millis
+        var chart = d3.timeline()
+          .relativeTime()
+          .tickFormat({
+            format: formatMinutes,
+            tickTime: d3.time.minutes,
+            tickInterval: 30,
+            tickSize: 15,
+          });
+          
+        var svg = d3.select("#timelineRelativeTime").append("svg").attr("width", width)
+          .datum(testDataRelative).call(chart);
+          console.log(testDataRelative);
+      }
 
       timelineRect();
       timelineCircle();
@@ -149,6 +175,7 @@
       timelineStackedIcons();
       timelineRotatedTicks();
       timelineRectColors();
+      timelineRelativeTime();
     }
   </script>
 </head>
@@ -183,6 +210,11 @@
   <div>
     <h3>A timeline with colors mapped from the data</h3>
     <div id="timelineColors"></div>  
+  </div>
+  
+  <div>
+    <h3>A timeline with relative timepoints</h3>
+    <div width="100%" id="timelineRelativeTime"></div>  
   </div>
 
 </body>
