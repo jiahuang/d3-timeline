@@ -108,7 +108,8 @@
             .attr("cx", getXPos)
             .attr("r", itemHeight/2)
             .attr("height", itemHeight)
-            .style("fill", function(d, i){ 
+            .style("fill", function(d, i){
+              if (d.color) return d.color;
               if( colorPropertyName ){ 
                 return colorCycle( datum[colorPropertyName] ) 
               } 
