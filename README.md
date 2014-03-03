@@ -45,6 +45,22 @@ And icons
 
 For your *really* long charts, it supports scrolling. It can even do things on hover, click, and scroll for when someone accidentially interacts with your chart.
 
+You can also specify an optional `id` key in the data dictionary. This will label each timeline rectangle item within the visualization with the following id property: "timelineItem_"+id. For example, this data
+
+```js
+var testData = [
+  {id: "pA", label: "person a", times: [
+    {"starting_time": 1355752800000, "ending_time": 1355759900000}, 
+    {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
+  {id: "pB", label: "person b", times: [
+    {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
+  {id: "pC", label: "person c", times: [
+    {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
+  ];
+```
+would generate `<rect>` with the following ids: `timelineItem_pA`,`timelineItem_pB`,`timelineItem_pC`. This means that you can dynamically change the visual properties of each timeline item using JQuery like so: `$("#timelineItem_pA").css("fill","blue");`.
+If no custom id is provided, the id attribute will be generated sequentially in the order they have been provided in. e.g.: `timelineItem_0`.
+
 Look at the [examples](https://github.com/jiahuang/d3-timeline/blob/master/examples/example.html) for more details.
 
 ##Data formats
@@ -163,7 +179,7 @@ sets the time that the timeline should end. If `beginning` and `ending` are not 
 Takes in no arguments. Toggles the stacking/unstacking of data series in the timeline. Needs to be true in order for icons and labels to show up properly.
 
 ###.relativeTime()
-Takes in no arguments. Toggles the calculation and use of relative timestamps. The origin of the timeline will be set to 0 and the starting_time of the first data dictionnary in the data array will be subtracted from every subsequent timestamp.
+Takes in no arguments. Toggles the calculation and use of relative timestamps. The origin of the timeline will be set to 0 and the starting_time of the first data dictionary in the data array will be subtracted from every subsequent timestamp.
 
 ###.showToday()
 Takes in no arguments. Toggles a vertical line showing the current Date.now() time. Uses showTodayFormat for the line formatting.
