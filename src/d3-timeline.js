@@ -115,7 +115,8 @@
         d.forEach( function(datum, index){
           var data = datum.times;
           var hasLabel = (typeof(datum.label) != "undefined");
-
+          var hasId = (typeof(datum.id) != "undefined");
+          
           g.selectAll("svg").data(data).enter()
             .append(display)
             .attr('x', getXPos)
@@ -144,6 +145,13 @@
             })
             .on("click", function (d, i) {
               click(d, index, datum);
+            })
+            .attr("id", function (d, i) {
+              if (hasId){ 
+                return "timelineItem"+datum.id;
+              }else{
+                return "timelineItem"+index;
+              }
             })
           ;
 
