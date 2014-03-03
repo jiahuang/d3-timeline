@@ -148,9 +148,9 @@
             })
             .attr("id", function (d, i) {
               if (hasId){ 
-                return "timelineItem"+datum.id;
+                return "timelineItem_"+datum.id;
               }else{
-                return "timelineItem"+index;
+                return "timelineItem_"+index;
               }
             })
           ;
