@@ -1,0 +1,20 @@
+{
+  "name": "d3-timeline",
+  "version": "0.0.1",
+  "main": "src/d3-timeline.js",
+  "ignore": [
+      "examples",
+      "lib",
+      ".bowerrc",
+      ".gitignore",
+      ".git",
+      ".jshintrc",
+      "bower.json",
+      "gruntfile.js",
+      "package.json",
+      "README.md"
+  ],
+  "dependencies": {
+    "d3": ">=3.4.3"
+  }
+}
