@@ -1,3 +1,4 @@
+// vim: ts=2 sw=2
 (function () {
   d3.timeline = function() {
     var DISPLAY_TYPES = ["circle", "rect"];
@@ -26,7 +27,9 @@
         itemHeight = 20,
         itemMargin = 5,
         showTodayLine = false,
-        showTodayFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle}
+        showTodayFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle},
+        showBorderLine = false,
+        showBorderFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle}
       ;
 
     function timeline (gParent) {
@@ -209,16 +212,21 @@
       var gSize = g[0][0].getBoundingClientRect();
       setHeight();
 
-      if( showTodayLine )
-      {
+      if (showBorderLine) {
+        g.each(function (d, i) {
+          d.forEach(function (datum) {
+            var times = datum.times;
+            times.forEach(function (time) {
+              appendLine(xScale(time.starting_time), showBorderFormat);
+              appendLine(xScale(time.ending_time), showBorderFormat);
+            });
+          });
+        });
+      }
+
+      if (showTodayLine) {
         var todayLine = xScale(new Date());
-        gParent.append("svg:line")
-          .attr("x1", todayLine)
-          .attr("y1", showTodayFormat.marginTop)
-          .attr("x2", todayLine)
-          .attr("y2", height - showTodayFormat.marginBottom)
-          .style("stroke", showTodayFormat.color)//"rgb(6,120,155)")
-          .style("stroke-width", showTodayFormat.width); 
+        appendLine(todayLine, showTodayFormat);
       }
 
       function getXPos(d, i) {
@@ -256,7 +264,20 @@
         }
         // if both are set, do nothing
       }
+
+      function appendLine(lineScale, lineFormat) {
+        gParent.append("svg:line")
+          .attr("x1", lineScale)
+          .attr("y1", lineFormat.marginTop)
+          .attr("x2", lineScale)
+          .attr("y2", height - lineFormat.marginBottom)
+          .style("stroke", lineFormat.color)//"rgb(6,120,155)")
+          .style("stroke-width", lineFormat.width); 
+      }
+
     }
+
+    // SETTINGS
 
     timeline.margin = function (p) {
       if (!arguments.length) return margin;
@@ -366,6 +387,17 @@
 
     timeline.relativeTime = function() {
       timeIsRelative = !timeIsRelative;
+      return timeline;
+    }
+
+    timeline.showBorderLine = function () {
+        showBorderLine = !showBorderLine;
+        return timeline;
+    }
+
+    timeline.showBorderFormat = function(borderFormat) {
+      if (!arguments.length) return showBorderFormat;
+      showBorderFormat = borderFormat;
       return timeline;
     }
 
