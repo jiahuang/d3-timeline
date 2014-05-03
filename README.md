@@ -5,12 +5,12 @@ Get something that looks like
 
 ![Rectangular Timeline](https://raw.github.com/jiahuang/d3-timeline/master/examples/timeline1.png)
 
-for a dataset that looks like 
+for a dataset that looks like
 
 ```js
 var testData = [
   {label: "person a", times: [
-    {"starting_time": 1355752800000, "ending_time": 1355759900000}, 
+    {"starting_time": 1355752800000, "ending_time": 1355759900000},
     {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
   {label: "person b", times: [
     {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
@@ -19,7 +19,7 @@ var testData = [
   ];
 ```
 
-with a call that looks like 
+with a call that looks like
 
 ```js
 var chart = d3.timeline();
@@ -50,7 +50,7 @@ You can also specify an optional `id` key in the data dictionary. This will labe
 ```js
 var testData = [
   {id: "pA", label: "person a", times: [
-    {"starting_time": 1355752800000, "ending_time": 1355759900000}, 
+    {"starting_time": 1355752800000, "ending_time": 1355759900000},
     {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
   {id: "pB", label: "person b", times: [
     {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
@@ -65,11 +65,11 @@ Look at the [examples](https://github.com/jiahuang/d3-timeline/blob/master/examp
 
 ##Data formats
 
-The simplest data format only requires `starting_time` and `ending_time` for each series of data. 
+The simplest data format only requires `starting_time` and `ending_time` for each series of data.
 ```js
 [
   {times: [
-    {"starting_time": 1355752800000, "ending_time": 1355759900000}, 
+    {"starting_time": 1355752800000, "ending_time": 1355759900000},
     {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
   {times: [
     {"starting_time": 1355759910000, "ending_time": 1355761900000}]}
@@ -80,7 +80,7 @@ The simplest data format only requires `starting_time` and `ending_time` for eac
 ```js
 [
   {label: "person a", times: [
-    {"starting_time": 1355752800000, "ending_time": 1355759900000}, 
+    {"starting_time": 1355752800000, "ending_time": 1355759900000},
     {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
   {label: "person b", times: [
     {"starting_time": 1355759910000, "ending_time": 1355761900000}]}
@@ -91,12 +91,23 @@ The simplest data format only requires `starting_time` and `ending_time` for eac
 ```js
 [
   {icon: "path/to/img.png", times: [
-    {"starting_time": 1355752800000, "ending_time": 1355759900000}, 
+    {"starting_time": 1355752800000, "ending_time": 1355759900000},
     {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
   {label: "person b", times: [
     {"starting_time": 1355759910000, "ending_time": 1355761900000}]}
 ];
 ```
+
+### 'times' elements array
+Each item in the times array must have `starting_time` and `ending_time`.  You could also specify optional `color` or `label` elements within a times item.
+```js
+[
+   {label: "person a", times: [{"color":"green", "label":"Weeee", "starting_time": 1355752800000, "ending_time": 1355759900000}, {"color":"blue", "label":"Weeee", "starting_time": 1355767900000, "ending_time": 1355774400000}]},
+   {label: "person b", times: [{"color":"pink", "label":"Weeee", "starting_time": 1355759910000, "ending_time": 1355761900000}, ]},
+   {label: "person c", times: [{"color":"yellow", "label":"Weeee", "starting_time": 1355761910000, "ending_time": 1355763910000}]},
+];
+```
+
 
 ##Method Calls
 All methods that take in arguments return the current settings if no argument is passed.
@@ -120,13 +131,13 @@ sets the margin of the entire timeline inside of the svg. Defaults to 30px all a
 Displays the data series as either circles or rectangles. Defaults to "rect".
 
 ###.tickFormat({format: , tickTime: , tickInterval: , tickSize: })
-sets the formatting of the ticks in the timeline. Defaults to 
+sets the formatting of the ticks in the timeline. Defaults to
 ```js
 {
-  format: d3.time.format("%I %p"), 
-  tickTime: d3.time.hours, 
-  tickInterval: 1, 
-  tickSize: 6 
+  format: d3.time.format("%I %p"),
+  tickTime: d3.time.hours,
+  tickInterval: 1,
+  tickSize: 6
 }
 ```
 
@@ -158,7 +169,7 @@ var testData = [
   {label: "fruit 1", fruit: "orange", times: [
     {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
   {label: "fruit 2", fruit: "apple", times: [
-    {"starting_time": 1355752800000, "ending_time": 1355759900000}, 
+    {"starting_time": 1355752800000, "ending_time": 1355759900000},
     {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
   {label: "fruit3", fruit: "lemon", times: [
     {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
@@ -170,10 +181,10 @@ Your chart's bar colors will be determined based on the value of the fruit prope
 
 
 ###.beginning(date)
-sets the time that the timeline should start. If `beginning` and `ending` are not set, the timeline will calculate it based off of the smallest and largest times. 
+sets the time that the timeline should start. If `beginning` and `ending` are not set, the timeline will calculate it based off of the smallest and largest times.
 
 ###.ending(date)
-sets the time that the timeline should end. If `beginning` and `ending` are not set, the timeline will calculate it based off of the smallest and largest times. 
+sets the time that the timeline should end. If `beginning` and `ending` are not set, the timeline will calculate it based off of the smallest and largest times.
 
 ###.stack()
 Takes in no arguments. Toggles the stacking/unstacking of data series in the timeline. Needs to be true in order for icons and labels to show up properly.
@@ -196,9 +207,9 @@ Sets the formatting of the showBorder line. Color cycle can also be of the forma
 Defaults to
 ```js
 {
-  marginTop: 25, 
-  marginBottom: 0, 
-  width: 1, 
+  marginTop: 25,
+  marginBottom: 0,
+  width: 1,
   color: colorCycle
 }
 ```
@@ -208,7 +219,7 @@ takes in a callback called on mousemove of the timeline data. Example
 
 ```js
 d3.timeline()
-  .hover(function (d, i, datum) { 
+  .hover(function (d, i, datum) {
     // d is the current rendering object
     // i is the index during d3 rendering
     // datum is the data object
@@ -244,7 +255,7 @@ takes in a callback called on click of the timeline data. Example
 
 ```js
 d3.timeline()
-  .click(function (d, i, datum) { 
+  .click(function (d, i, datum) {
     // d is the current rendering object
     // i is the index during d3 rendering
     // datum is the data object
@@ -262,5 +273,5 @@ d3.timeline()
   });
 ```
 
-##License 
+##License
 MIT

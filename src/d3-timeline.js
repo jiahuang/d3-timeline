@@ -159,11 +159,20 @@
             })
           ;
 
+          g.selectAll("svg").data(data).enter()
+            .append("text")
+            .attr("x", getXTextPos)
+            .attr("y", getStackTextPosition)
+            .text(function(d) {
+              return d.label;
+            })
+          ;
+
           // add the label
           if (hasLabel) {
             gParent.append("text")
               .attr("class", "timeline-label")
-              .attr("transform", "translate("+ 0 +","+ (itemHeight/2 + margin.top + (itemHeight + itemMargin) * yAxisMapping[index])+")")
+              .attr("transform", "translate("+ 0 +","+ (itemHeight * 0.75 + margin.top + (itemHeight + itemMargin) * yAxisMapping[index])+")")
               .text(hasLabel ? datum.label : datum.id);
           }
 
@@ -181,6 +190,12 @@
               return margin.top + (itemHeight + itemMargin) * yAxisMapping[index];
             }
             return margin.top;
+          }
+          function getStackTextPosition(d, i) {
+            if (stacked) {
+              return margin.top + (itemHeight + itemMargin) * yAxisMapping[index] + itemHeight * 0.75;
+            }
+            return margin.top + itemHeight * 0.75;
           }
         });
       });
@@ -204,8 +219,8 @@
         g.selectAll("text")
           .attr("transform", function(d) {
             return "rotate(" + rotateTicks + ")translate("
-              + (this.getBBox().width/2+10) + "," // TODO: change this 10
-              + this.getBBox().height/2 + ")";
+              + (this.getBBox().width / 2 + 10) + "," // TODO: change this 10
+              + this.getBBox().height / 2 + ")";
           });
       }
 
@@ -231,6 +246,10 @@
 
       function getXPos(d, i) {
         return margin.left + (d.starting_time - beginning) * scaleFactor;
+      }
+
+      function getXTextPos(d, i) {
+        return margin.left + (d.starting_time - beginning) * scaleFactor + 5;
       }
 
       function setHeight() {

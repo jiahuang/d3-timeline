@@ -22,7 +22,7 @@
       font-family: sans-serif;
       font-size: 12px;
     }
-    
+
     #timeline2 .axis {
       transform: translate(0px,30px);
       -ms-transform: translate(0px,30px); /* IE 9 */
@@ -42,29 +42,35 @@
         {times: [{"starting_time": 1355759910000, "ending_time": 1355761900000}, ]},
         {times: [{"starting_time": 1355761910000, "ending_time": 1355763910000}]},
       ];
-      
+
       var labelTestData = [
         {label: "person a", times: [{"starting_time": 1355752800000, "ending_time": 1355759900000}, {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
         {label: "person b", times: [{"starting_time": 1355759910000, "ending_time": 1355761900000}, ]},
         {label: "person c", times: [{"starting_time": 1355761910000, "ending_time": 1355763910000}]},
       ];
-      
+
       var iconTestData = [
         {icon: "jackie.png", times: [{"starting_time": 1355752800000, "ending_time": 1355759900000}, {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
         {icon: "troll.png", times: [{"starting_time": 1355759910000, "ending_time": 1355761900000}, ]},
         {icon: "wat.png", times: [{"starting_time": 1355761910000, "ending_time": 1355763910000}]},
       ];
 
+      var labelColorTestData = [
+        {label: "person a", times: [{"color":"green", "label":"Weeee", "starting_time": 1355752800000, "ending_time": 1355759900000}, {"color":"blue", "label":"Weeee", "starting_time": 1355767900000, "ending_time": 1355774400000}]},
+        {label: "person b", times: [{"color":"pink", "label":"Weeee", "starting_time": 1355759910000, "ending_time": 1355761900000}, ]},
+        {label: "person c", times: [{"color":"yellow", "label":"Weeee", "starting_time": 1355761910000, "ending_time": 1355763910000}]},
+      ];
+
       var testDataWithColor = [
         {label: "fruit 1", fruit: "orange", times: [
           {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
         {label: "fruit 2", fruit: "apple", times: [
-          {"starting_time": 1355752800000, "ending_time": 1355759900000}, 
+          {"starting_time": 1355752800000, "ending_time": 1355759900000},
           {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
         {label: "fruit3", fruit: "lemon", times: [
           {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
         ];
-      
+
       var testDataRelative = [
         {times: [{"starting_time": 1355752800000, "ending_time": 1355759900000}, {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
         {times: [{"starting_time": 1355759910000, "ending_time": 1355761900000}]},
@@ -81,10 +87,10 @@
 
       function timelineCircle() {
         var chart = d3.timeline()
-          .tickFormat( // 
-            {format: d3.time.format("%I %p"), 
-            tickTime: d3.time.hours, 
-            tickInterval: 1, 
+          .tickFormat( //
+            {format: d3.time.format("%I %p"),
+            tickTime: d3.time.hours,
+            tickInterval: 1,
             tickSize: 30})
           .display("circle"); // toggle between rectangles and circles
 
@@ -97,7 +103,7 @@
           .width(width*4)
           .stack()
           .margin({left:70, right:30, top:0, bottom:0})
-          .hover(function (d, i, datum) { 
+          .hover(function (d, i, datum) {
           // d is the current rendering object
           // i is the index during d3 rendering
           // datum is the id object
@@ -127,17 +133,28 @@
         var svg = d3.select("#timeline5").append("svg").attr("width", width)
           .datum(iconTestData).call(chart);
       }
-      
+
+      function timelineLabelColor() {
+        var chart = d3.timeline()
+          .beginning(1355752800000) // we can optionally add beginning and ending times to speed up rendering a little
+          .ending(1355774400000)
+          .stack() // toggles graph stacking
+          .margin({left:70, right:30, top:0, bottom:0})
+          ;
+        var svg = d3.select("#timeline6").append("svg").attr("width", width)
+          .datum(labelColorTestData).call(chart);
+      }
+
       function timelineRotatedTicks() {
         var chart = d3.timeline()
           .rotateTicks(45);
 
-        var svg = d3.select("#timeline6").append("svg").attr("width", width)
+        var svg = d3.select("#timeline7").append("svg").attr("width", width)
           .datum(testData).call(chart);
       }
 
       function timelineRectColors() {
-        
+
         var colorScale = d3.scale.ordinal().range(['#6b0000','#ef9b0f','#ffee00'])
             .domain(['apple','orange','lemon']);
 
@@ -148,8 +165,8 @@
         var svg = d3.select("#timelineColors").append("svg").attr("width", width)
           .datum(testDataWithColor).call(chart);
       }
-      
-      
+
+
       function timelineRelativeTime() {
         //This solution is for relative time is from
         //http://stackoverflow.com/questions/11286872/how-do-i-make-a-custom-axis-formatter-for-hours-minutes-in-d3-js
@@ -163,7 +180,7 @@
             tickInterval: 30,
             tickSize: 15,
           });
-          
+
         var svg = d3.select("#timelineRelativeTime").append("svg").attr("width", width)
           .datum(testDataRelative).call(chart);
           console.log(testDataRelative);
@@ -173,6 +190,7 @@
       timelineCircle();
       timelineHover();
       timelineStackedIcons();
+      timelineLabelColor();
       timelineRotatedTicks();
       timelineRectColors();
       timelineRelativeTime();
@@ -201,20 +219,25 @@
     <h3>We can also use icons</h3>
     <div id="timeline5"></div>
   </div>
-  
+
+  <div>
+    <h3>We can change colors and put labels</h3>
+    <div id="timeline6"></div>
+  </div>
+
   <div>
     <h3>We can also rotate tick mark labels</h3>
-    <div id="timeline6"></div>  
+    <div id="timeline7"></div>
   </div>
 
   <div>
     <h3>A timeline with colors mapped from the data</h3>
-    <div id="timelineColors"></div>  
+    <div id="timelineColors"></div>
   </div>
-  
+
   <div>
     <h3>A timeline with relative timepoints</h3>
-    <div width="100%" id="timelineRelativeTime"></div>  
+    <div width="100%" id="timelineRelativeTime"></div>
   </div>
 
 </body>
