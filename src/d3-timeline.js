@@ -105,7 +105,7 @@
         .scale(xScale)
         .orient(orient)
         .tickFormat(tickFormat.format)
-        .ticks(tickFormat.tickTime, tickFormat.tickInterval)
+        .ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval)
         .tickSize(tickFormat.tickSize);
 
       g.append("g")
