@@ -451,9 +451,8 @@
       return timeline;
     };
 
-    timeline.rowSeperators = function (show) {
-      if (!arguments.length) return rowSeperators;
-      rowSeperators = show;
+    timeline.rowSeperators = function () {
+      rowSeperators = true;
       return timeline;
     };
 
