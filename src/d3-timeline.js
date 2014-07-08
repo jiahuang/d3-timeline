@@ -11,6 +11,7 @@
         orient = "bottom",
         width = null,
         height = null,
+        rowSeperators = null,
         tickFormat = { format: d3.time.format("%I %p"),
           tickTime: d3.time.hours,
           tickInterval: 1,
@@ -167,6 +168,19 @@
               return d.label;
             })
           ;
+
+          if (rowSeperators) {
+            var lineYAxis = ( itemHeight + itemMargin / 2 + margin.top + (itemHeight + itemMargin) * yAxisMapping[index]);
+            gParent.append("svg:line")
+              .attr("class", "row-seperator")
+              .attr("x1", 0 + margin.left)
+              .attr("x2", width - margin.right)
+              .attr("y1", lineYAxis)
+              .attr("y2", lineYAxis)
+              .attr("stroke-width", 1)
+              .attr("stroke", "#777");
+            ;
+          }
 
           // add the label
           if (hasLabel) {
@@ -434,6 +448,12 @@
     timeline.colorProperty = function(colorProp) {
       if (!arguments.length) return colorPropertyName;
       colorPropertyName = colorProp;
+      return timeline;
+    };
+
+    timeline.rowSeperators = function (show) {
+      if (!arguments.length) return rowSeperators;
+      rowSeperators = show;
       return timeline;
     };
 
