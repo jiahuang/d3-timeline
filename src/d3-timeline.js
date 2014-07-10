@@ -11,7 +11,8 @@
         orient = "bottom",
         width = null,
         height = null,
-        rowSeperators = null,
+        rowSeperatorsColor = null,
+        backgroundColor = null,
         tickFormat = { format: d3.time.format("%I %p"),
           tickTime: d3.time.hours,
           tickInterval: 1,
@@ -121,6 +122,20 @@
           var hasLabel = (typeof(datum.label) != "undefined");
           var hasId = (typeof(datum.id) != "undefined");
 
+
+          if (backgroundColor) {
+            var greenbarYAxis = ((itemHeight + itemMargin) * yAxisMapping[index]);
+            g.selectAll("svg").data(data).enter()
+              .insert("rect")
+              .attr("class", "row-green-bar")
+              .attr("x", 0 + margin.left)
+              .attr("width", width - margin.right - margin.left)
+              .attr("y", greenbarYAxis)
+              .attr("height", itemHeight)
+              .attr("fill", backgroundColor)
+            ;
+          }
+
           g.selectAll("svg").data(data).enter()
             .append(display)
             .attr("x", getXPos)
@@ -169,7 +184,7 @@
             })
           ;
 
-          if (rowSeperators) {
+          if (rowSeperatorsColor) {
             var lineYAxis = ( itemHeight + itemMargin / 2 + margin.top + (itemHeight + itemMargin) * yAxisMapping[index]);
             gParent.append("svg:line")
               .attr("class", "row-seperator")
@@ -178,7 +193,7 @@
               .attr("y1", lineYAxis)
               .attr("y2", lineYAxis)
               .attr("stroke-width", 1)
-              .attr("stroke", "#777");
+              .attr("stroke", rowSeperatorsColor);
             ;
           }
 
@@ -451,8 +466,15 @@
       return timeline;
     };
 
-    timeline.rowSeperators = function () {
-      rowSeperators = true;
+    timeline.rowSeperators = function (color) {
+      if (!arguments.length) return rowSeperatorsColor;
+      rowSeperatorsColor = color;
+      return timeline;
+    };
+
+    timeline.background = function (color) {
+      if (!arguments.length) return backgroundColor;
+      backgroundColor = color;
       return timeline;
     };
 
