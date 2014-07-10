@@ -213,8 +213,11 @@ Defaults to
   color: colorCycle
 }
 ```
-###.rowSeperators()
-Takes in no arguments. Toggles the display of borders betweens rows.
+###.rowSeperators(color)
+Sets the display of horizontal lines betweens rows.
+
+###.background(color)
+Sets the background of the rows. Useful for creating a continuous effect when there are gaps in your data.
 
 ###.hover(callback)
 takes in a callback called on mousemove of the timeline data. Example
