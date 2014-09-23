@@ -302,12 +302,19 @@
 
       function setWidth() {
         if (!width && !gParentSize.width) {
-          throw "width of the timeline is not set. As of Firefox 27, timeline().with(x) needs to be explicitly set in order to render";
-        } else if (!(width && gParentSize.width)) {
-          if (!width) {
+          try { 
             width = gParentItem.attr("width");
-          } else {
-            gParentItem.attr("width", width);
+            if (!width) {
+              throw "width of the timeline is not set. As of Firefox 27, timeline().with(x) needs to be explicitly set in order to render";
+            }            
+          } catch (err) {
+            console.log( err );
+          }
+        } else if (!(width && gParentSize.width)) {
+          try { 
+            width = gParentItem.attr("width");
+          } catch (err) {
+            console.log( err );
           }
         }
         // if both are set, do nothing
