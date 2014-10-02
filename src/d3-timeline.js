@@ -202,7 +202,10 @@
             gParent.append("text")
               .attr("class", "timeline-label")
               .attr("transform", "translate("+ 0 +","+ (itemHeight * 0.75 + margin.top + (itemHeight + itemMargin) * yAxisMapping[index])+")")
-              .text(hasLabel ? datum.label : datum.id);
+              .text(hasLabel ? datum.label : datum.id)
+              .on("click", function (d, i) {
+                click(d, index, datum);
+              });
           }
 
           if (typeof(datum.icon) !== "undefined") {
