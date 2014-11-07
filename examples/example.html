@@ -170,12 +170,10 @@
       function timelineRelativeTime() {
         //This solution is for relative time is from
         //http://stackoverflow.com/questions/11286872/how-do-i-make-a-custom-axis-formatter-for-hours-minutes-in-d3-js
-        var formatTime = d3.time.format("%Hh%Mm"),
-            formatMinutes = function(d) { return formatTime(new Date(2012, 0, 1, 0, 0, 0, d)); };   //The intervals are in millis
         var chart = d3.timeline()
           .relativeTime()
           .tickFormat({
-            format: formatMinutes,
+            format: function(d) { return d3.time.format("%H:%M")(d) },
             tickTime: d3.time.minutes,
             tickInterval: 30,
             tickSize: 15,
