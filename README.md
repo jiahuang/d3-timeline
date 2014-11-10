@@ -199,7 +199,7 @@ Takes in no arguments. Toggles a vertical line showing the current Date.now() ti
 Sets the formatting of the showToday line. Color cycle can also be of the format `rgb(x, y, z)`.
 
 ###.showBorder()
-Takes in no arguments. Toogles a vertical line showing the borders of one specific timeline. Uses showBorderFormat for the line formatting.
+Takes in no arguments. Toggles a vertical line showing the borders of one specific timeline. Uses showBorderFormat for the line formatting.
 
 ###.showBorderFormat({marginTop: , marginBottom:, width: , color: })
 Sets the formatting of the showBorder line. Color cycle can also be of the format `rgb(x, y, z)`.
