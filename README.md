@@ -113,7 +113,7 @@ Each item in the times array must have `starting_time` and `ending_time`.  You c
 All methods that take in arguments return the current settings if no argument is passed.
 
 ###.width(width)
-sets the width of the timeline. If the width of the timeline is longer than the width of the svg object, the timeline will automatically scroll. The width of the timeline will default to the width of the svg if wdith is not set.
+sets the width of the timeline. If the width of the timeline is longer than the width of the svg object, the timeline will automatically scroll. The width of the timeline will default to the width of the svg if width is not set.
 
 ###.height(height)
 sets the height of the timeline. The height of the timeline will be automatically calculated from the height of each item if height is not set on the timeline or the svg.
@@ -199,7 +199,7 @@ Takes in no arguments. Toggles a vertical line showing the current Date.now() ti
 Sets the formatting of the showToday line. Color cycle can also be of the format `rgb(x, y, z)`.
 
 ###.showBorder()
-Takes in no arguments. Toogles a vertical line showing the borders of one specific timeline. Uses showBorderFormat for the line formatting.
+Takes in no arguments. Toggles a vertical line showing the borders of one specific timeline. Uses showBorderFormat for the line formatting.
 
 ###.showBorderFormat({marginTop: , marginBottom:, width: , color: })
 Sets the formatting of the showBorder line. Color cycle can also be of the format `rgb(x, y, z)`.
