@@ -99,7 +99,7 @@ The simplest data format only requires `starting_time` and `ending_time` for eac
 ```
 
 ### 'times' elements array
-Each item in the times array must have `starting_time` and `ending_time`.  You could also specify optional `color` or `label` elements within a times item.
+Each item in the times array must have `starting_time` and `ending_time`.  You could also specify optional `color` or `label` elements within a times item, as well as a [property mapped to a color](#.colorProperty(propertyName)).
 ```js
 [
    {label: "person a", times: [{"color":"green", "label":"Weeee", "starting_time": 1355752800000, "ending_time": 1355759900000}, {"color":"blue", "label":"Weeee", "starting_time": 1355767900000, "ending_time": 1355774400000}]},
@@ -179,6 +179,20 @@ Your chart's bar colors will be determined based on the value of the fruit prope
 
 ![Color Timeline](examples/timeline6.png)
 
+You can also set the color property for a specific time object, in which case the value set in that object will override the 
+
+```js
+var testData = [
+  {label: "fruit 2", fruit: "apple", times: [
+    {fruit: "orange", "starting_time": 1355752800000, "ending_time": 1355759900000},
+    {"starting_time": 1355767900000, "ending_time": 1355774400000},
+    {fruit: "lemon", "starting_time": 1355774400000, "ending_time": 1355775500000}]}
+  ];
+```
+
+Properties set in the time object will override the property set for the series:
+
+![Timeline With Per-Time Colors](examples/timeline7.png)
 
 ###.beginning(date)
 sets the time that the timeline should start. If `beginning` and `ending` are not set, the timeline will calculate it based off of the smallest and largest times.
