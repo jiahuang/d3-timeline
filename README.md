@@ -179,7 +179,7 @@ Your chart's bar colors will be determined based on the value of the fruit prope
 
 ![Color Timeline](examples/timeline6.png)
 
-You can also set the color property for a specific time object, in which case the value set in that object will override the 
+You can also set the color property for a specific time object:
 
 ```js
 var testData = [
