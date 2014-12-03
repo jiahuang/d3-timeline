@@ -152,7 +152,11 @@
             .style("fill", function(d, i){
               if (d.color) return d.color;
               if( colorPropertyName ){
-                return colorCycle( datum[colorPropertyName] );
+                if ( d[colorPropertyName] ) {
+                  return colorCycle( d[colorPropertyName] );
+                } else {
+                  return colorCycle( datum[colorPropertyName] );
+                }
               }
               return colorCycle(index);
             })
