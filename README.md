@@ -99,7 +99,7 @@ The simplest data format only requires `starting_time` and `ending_time` for eac
 ```
 
 ### 'times' elements array
-Each item in the times array must have `starting_time` and `ending_time`.  You could also specify optional `color` or `label` elements within a times item, as well as a [property mapped to a color](#.colorProperty(propertyName)).
+Each item in the times array must have `starting_time` and `ending_time`.  You could also specify optional `color` or `label` elements within a times item, as well as a [property mapped to a color](#colorpropertypropertyname).
 ```js
 [
    {label: "person a", times: [{"color":"green", "label":"Weeee", "starting_time": 1355752800000, "ending_time": 1355759900000}, {"color":"blue", "label":"Weeee", "starting_time": 1355767900000, "ending_time": 1355774400000}]},
