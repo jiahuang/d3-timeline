@@ -150,10 +150,12 @@
             .attr("r", itemHeight / 2)
             .attr("height", itemHeight)
             .style("fill", function(d, i){
+              var dColorPropName;
               if (d.color) return d.color;
               if( colorPropertyName ){
-                if ( d[colorPropertyName] ) {
-                  return colorCycle( d[colorPropertyName] );
+                dColorPropName = d[colorPropertyName];
+                if ( dColorPropName ) {
+                  return colorCycle( dColorPropName );
                 } else {
                   return colorCycle( datum[colorPropertyName] );
                 }
