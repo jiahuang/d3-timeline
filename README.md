@@ -231,12 +231,12 @@ d3.timeline()
   });
 ```
 
-###.mouseon(callback)
-takes in a callback called on mouseon of the timeline data. Example
+###.mouseover(callback)
+takes in a callback called on mouseover of the timeline data. Example
 
 ```js
 d3.timeline()
-  .mouseon(function (d, i, datum) {
+  .mouseover(function (d, i, datum) {
     // d is the current rendering object
     // i is the index during d3 rendering
     // datum is the data object
