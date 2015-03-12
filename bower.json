@@ -9,7 +9,6 @@
       ".gitignore",
       ".git",
       ".jshintrc",
-      "bower.json",
       "gruntfile.js",
       "package.json",
       "README.md"
