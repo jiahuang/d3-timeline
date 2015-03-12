@@ -71,6 +71,13 @@
           {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
         ];
 
+      var testDataWithColorPerTime = [
+        {label: "fruit 2", fruit: "apple", times: [
+          {fruit: "orange", "starting_time": 1355752800000, "ending_time": 1355759900000},
+          {"starting_time": 1355767900000, "ending_time": 1355774400000},
+          {fruit: "lemon", "starting_time": 1355774400000, "ending_time": 1355775500000}]}
+        ];
+
       var testDataRelative = [
         {times: [{"starting_time": 1355752800000, "ending_time": 1355759900000}, {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
         {times: [{"starting_time": 1355759910000, "ending_time": 1355761900000}]},
@@ -166,6 +173,18 @@
           .datum(testDataWithColor).call(chart);
       }
 
+      function timelineRectColorsPerTime() {
+        var colorScale = d3.scale.ordinal().range(['#6b0000','#ef9b0f','#ffee00'])
+            .domain(['apple','orange','lemon']);
+
+        var chart = d3.timeline()
+            .colors( colorScale )
+            .colorProperty('fruit');      
+
+        var svg = d3.select("#timelineColorsPerTime").append("svg").attr("width", width)
+          .datum(testDataWithColorPerTime).call(chart);  
+      }
+
 
       function timelineRelativeTime() {
         //This solution is for relative time is from
@@ -191,6 +210,7 @@
       timelineLabelColor();
       timelineRotatedTicks();
       timelineRectColors();
+      timelineRectColorsPerTime();
       timelineRelativeTime();
     }
   </script>
@@ -231,6 +251,11 @@
   <div>
     <h3>A timeline with colors mapped from the data</h3>
     <div id="timelineColors"></div>
+  </div>
+
+  <div>
+    <h3>A timeline with colors mapped from the data for individual time objects</h3>
+    <div id="timelineColorsPerTime"></div>
   </div>
 
   <div>
