@@ -1,0 +1,10 @@
+{
+  "name": "d3-timeline",
+  "version": "0.0.1",
+  "main": "src/d3-timeline.js",
+  "repository": "https://github.com/jiahuang/d3-timeline.git",
+  "license" : "MIT",
+  "dependencies": {
+    "d3": ">=3.4.3"
+  }
+}
