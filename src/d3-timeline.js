@@ -31,7 +31,8 @@
         showTodayLine = false,
         showTodayFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle},
         showBorderLine = false,
-        showBorderFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle}
+        showBorderFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle},
+        showGridY = false
       ;
 
     function timeline (gParent) {
@@ -108,14 +109,20 @@
       var xAxis = d3.svg.axis()
         .scale(xScale)
         .orient(orient)
-        .tickFormat(tickFormat.format)
-        .ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval)
-        .tickSize(tickFormat.tickSize);
+        .ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval);
 
       g.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(" + 0 +","+(margin.top + (itemHeight + itemMargin) * maxStack)+")")
-        .call(xAxis);
+        .call(xAxis.tickFormat(tickFormat.format).tickSize(tickFormat.tickSize));
+
+      if(showGridY) {
+        g.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(" + 0 +","+
+          (margin.top + (itemHeight + itemMargin) * maxStack)+")").attr("stroke-dasharray", "4 10")
+        .call(xAxis.tickFormat("").tickSize(-(margin.top + (itemHeight + itemMargin) * (maxStack - 1) + 3),0,0));
+      }
 
       // draw the chart
       g.each(function(d, i) {
@@ -469,6 +476,11 @@
     timeline.showTodayFormat = function(todayFormat) {
       if (!arguments.length) return showTodayFormat;
       showTodayFormat = todayFormat;
+      return timeline;
+    };
+    
+    timeline.showGridY = function () {
+      showGridY = !showGridY;
       return timeline;
     };
 
