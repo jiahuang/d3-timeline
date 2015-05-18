@@ -28,7 +28,6 @@
         timeIsRelative = false,
         itemHeight = 20,
         itemMargin = 5,
-        showTimeAxis = true;
         showTodayLine = false,
         showTodayFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle},
         showBorderLine = false,
@@ -101,25 +100,22 @@
 
       var scaleFactor = (1/(ending - beginning)) * (width - margin.left - margin.right);
 
-      if (showTimeAxis) {
-        // draw the axis
-        var xScale = d3.time.scale()
-          .domain([beginning, ending])
-          .range([margin.left, width - margin.right]);
+      // draw the axis
+      var xScale = d3.time.scale()
+        .domain([beginning, ending])
+        .range([margin.left, width - margin.right]);
 
-        var xAxis = d3.svg.axis()
-          .scale(xScale)
-          .orient(orient)
-          .tickFormat(tickFormat.format)
-          .ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval)
-          .tickSize(tickFormat.tickSize);
+      var xAxis = d3.svg.axis()
+        .scale(xScale)
+        .orient(orient)
+        .tickFormat(tickFormat.format)
+        .ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval)
+        .tickSize(tickFormat.tickSize);
 
-        g.append("g")
-          .attr("class", "axis")
-          .attr("transform", "translate(" + 0 +","+(margin.top + (itemHeight + itemMargin) * maxStack)+")")
-          .call(xAxis);
-      }
-      
+      g.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(" + 0 +","+(margin.top + (itemHeight + itemMargin) * maxStack)+")")
+        .call(xAxis);
 
       // draw the chart
       g.each(function(d, i) {
