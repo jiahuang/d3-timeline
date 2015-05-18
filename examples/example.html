@@ -79,7 +79,7 @@
 
       var width = 500;
       function timelineRect() {
-        var chart = d3.timeline();
+        var chart = d3.timeline().showTimeAxis(false);
 
         var svg = d3.select("#timeline1").append("svg").attr("width", width)
           .datum(testData).call(chart);
@@ -186,12 +186,12 @@
 
       timelineRect();
       timelineCircle();
-      timelineHover();
-      timelineStackedIcons();
-      timelineLabelColor();
-      timelineRotatedTicks();
-      timelineRectColors();
-      timelineRelativeTime();
+      //timelineHover();
+      //timelineStackedIcons();
+      //timelineLabelColor();
+      //timelineRotatedTicks();
+      //timelineRectColors();
+      //timelineRelativeTime();
     }
   </script>
 </head>
