@@ -278,7 +278,7 @@ d3.timeline()
   });
 ```
 ###.showTimeAxis(true | false)
-allows the axis to be turned off.  Defaults to true.
+Allows the axis to be turned off.  Defaults to true.
 
 ##License
 MIT
