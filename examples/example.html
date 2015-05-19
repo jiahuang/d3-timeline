@@ -86,14 +86,14 @@
 
       var width = 500;
       function timelineRect() {
-        var chart = d3.timeline().showTimeAxis(true);
+        var chart = d3.timeline();
 
         var svg = d3.select("#timeline1").append("svg").attr("width", width)
           .datum(testData).call(chart);
       }
       
       function timelineRectNoAxis() {
-        var chart = d3.timeline().showTimeAxis(false);
+        var chart = d3.timeline().showTimeAxis();
 
         var svg = d3.select("#timeline1_noaxis").append("svg").attr("width", width)
           .datum(testData).call(chart);
@@ -141,6 +141,7 @@
         var chart = d3.timeline()
           .beginning(1355752800000) // we can optionally add beginning and ending times to speed up rendering a little
           .ending(1355774400000)
+          .showTimeAxisTick() // toggles tick marks
           .stack() // toggles graph stacking
           .margin({left:70, right:30, top:0, bottom:0})
           ;

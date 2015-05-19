@@ -218,6 +218,17 @@ Takes in no arguments. Toggles a vertical line showing the borders of one specif
 ###.showBorderFormat({marginTop: , marginBottom:, width: , color: })
 Sets the formatting of the showBorder line. Color cycle can also be of the format `rgb(x, y, z)`.
 
+###.showTimeAxis()
+Takes in no arguments. Toggles the visibility of the time axis.
+
+###.showTimeAxisTick()
+Takes in no arguments. Shows tick marks along the X axis according to the arguments for `showTimeAxisTickFormat`. Useful for datasets with a lot of stacked elements.
+
+![Timeline With tick marks](examples/timeline8.png) 
+
+###.showTimeAxisTickFormat(format)
+Format for `showTimeAxisTick`. Defaults to ```{stroke: "stroke-dasharray", spacing: "4 10"}```.
+
 Defaults to
 ```js
 {
@@ -291,8 +302,6 @@ d3.timeline()
     // scale is the scale of the axis used
   });
 ```
-###.showTimeAxis(true | false)
-Allows the axis to be turned off.  Defaults to true.
 
 ##License
 MIT
