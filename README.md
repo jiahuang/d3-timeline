@@ -277,6 +277,8 @@ d3.timeline()
     // scale is the scale of the axis used
   });
 ```
+###.showTimeAxis(true | false)
+Allows the axis to be turned off.  Defaults to true.
 
 ##License
 MIT
