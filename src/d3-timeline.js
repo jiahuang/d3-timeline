@@ -30,6 +30,8 @@
         itemMargin = 5,
         showTimeAxis = true,
         showTodayLine = false,
+        timeAxisTick = false,
+        timeAxisTickFormat = {stroke: "stroke-dasharray", spacing: "4 10"},
         showTodayFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle},
         showBorderLine = false,
         showBorderFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle}
@@ -106,21 +108,29 @@
         .domain([beginning, ending])
         .range([margin.left, width - margin.right]);
 
-      if (showTimeAxis) {
-        var xAxis = d3.svg.axis()
-          .scale(xScale)
-          .orient(orient)
-          .tickFormat(tickFormat.format)
-          .ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval)
-          .tickSize(tickFormat.tickSize);
+      var xAxis = d3.svg.axis()
+        .scale(xScale)
+        .orient(orient)
+        .tickFormat(tickFormat.format)
+        .ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval)
+        .tickSize(tickFormat.tickSize);
 
+      if (showTimeAxis) {
         g.append("g")
           .attr("class", "axis")
           .attr("transform", "translate(" + 0 +","+(margin.top + (itemHeight + itemMargin) * maxStack)+")")
           .call(xAxis);  
       }
-      
 
+      if (timeAxisTick) {
+        g.append("g")
+          .attr("class", "axis")
+          .attr("transform", "translate(" + 0 +","+
+            (margin.top + (itemHeight + itemMargin) * maxStack)+")")
+          .attr(timeAxisTickFormat.stroke, timeAxisTickFormat.spacing)
+          .call(xAxis.tickFormat("").tickSize(-(margin.top + (itemHeight + itemMargin) * (maxStack - 1) + 3),0,0));
+      }
+      
       // draw the chart
       g.each(function(d, i) {
         d.forEach( function(datum, index){
@@ -500,10 +510,21 @@
       return timeline;
     };
 
-    timeline.showTimeAxis = function (timeAxis) {
-      showTimeAxis = timeAxis;
+    timeline.showTimeAxis = function () {
+      showTimeAxis = !showTimeAxis;
       return timeline;
     };
+
+    timeline.showTimeAxisTick = function () {
+      timeAxisTick = !timeAxisTick;
+      return timeline;
+    };
+
+    timeline.showTimeAxisTickFormat = function(format) {
+      if (!arguments.length) return timeAxisTickFormat;
+      timeAxisTickFormat = format;
+      return timeline;
+    }
 
     return timeline;
   };
