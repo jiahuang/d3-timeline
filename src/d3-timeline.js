@@ -136,8 +136,11 @@
         d.forEach( function(datum, index){
           var data = datum.times;
           var hasLabel = (typeof(datum.label) != "undefined");
-          var hasId = (typeof(datum.id) != "undefined");
 
+          // issue warning about using id per data set. Ids should be individual to data elements
+          if (typeof(datum.id) != "undefined") {
+            console.warn("d3Timeline Warning: Ids per dataset is deprecated in favor of a 'class' key. Ids are now per data element.");
+          }
 
           if (backgroundColor) {
             var greenbarYAxis = ((itemHeight + itemMargin) * yAxisMapping[index]);
@@ -188,12 +191,16 @@
             .on("click", function (d, i) {
               click(d, index, datum);
             })
-            .attr("id", function (d, i) {
-              if (hasId){
-                return "timelineItem_"+datum.id;
-              }else{
-                return "timelineItem_"+index;
+            .attr("class", function (d, i) {
+              // use deprecated id field
+              if (datum.id) {
+                return 'timelineSeries_'+datum.id;
               }
+
+              return datum.class ? "timelineSeries_"+datum.class : "timelineSeries_"+index;
+            })
+            .attr("id", function(d, i) {
+              return d.id ? d.id : "timelineItem_"+index+"_"+i;
             })
           ;
 

@@ -45,21 +45,33 @@ And icons
 
 For your *really* long charts, it supports scrolling. It can even do things on hover, click, and scroll for when someone accidentially interacts with your chart.
 
-You can also specify an optional `id` key in the data dictionary. This will label each timeline rectangle item within the visualization with the following id property: "timelineItem_"+id. For example, this data
+You can also specify an optional `class` key in the data dictionary. This will label each timeline rectangle item within the visualization with the following id property: "timelineItem_"+class. For example, this data
 
 ```js
 var testData = [
-  {id: "pA", label: "person a", times: [
+  {class: "pA", label: "person a", times: [
     {"starting_time": 1355752800000, "ending_time": 1355759900000},
     {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
-  {id: "pB", label: "person b", times: [
+  {class: "pB", label: "person b", times: [
     {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
-  {id: "pC", label: "person c", times: [
+  {class: "pC", label: "person c", times: [
     {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
   ];
 ```
-would generate `<rect>` with the following ids: `timelineItem_pA`,`timelineItem_pB`,`timelineItem_pC`. This means that you can dynamically change the visual properties of each timeline item using JQuery like so: `$("#timelineItem_pA").css("fill","blue");`.
-If no custom id is provided, the id attribute will be generated sequentially in the order they have been provided in. e.g.: `timelineItem_0`.
+would generate `<rect>` with the following classes: `timelineItem_pA`,`timelineItem_pB`,`timelineItem_pC`. This means that you can dynamically change the visual properties of each timeline item using JQuery like so: `$(".timelineSeries_pA").css("fill","blue");`.
+If no custom class is provided, the class attribute will be generated sequentially in the order they have been provided in. e.g.: `timelineSeries_0`.
+
+Also optional is an `id` field per data element. 
+
+```js
+var testData = [
+  {label: "person a", times: [
+    {"starting_time": 1355752800000, "ending_time": 1355759900000, "id": "A1"},
+    {"starting_time": 1355767900000, "ending_time": 1355774400000, "id": "A2"}]}
+  ];
+```
+
+This generates `<rect>`s with `A1` and `A2` as ids. If no id is provided, the id attribute will be generated sequentially in the order they have been provided in. e.g.: `timelineItem_0_0`.
 
 Look at the [examples](https://github.com/jiahuang/d3-timeline/blob/master/examples/example.html) for more details.
 
