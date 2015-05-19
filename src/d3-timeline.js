@@ -270,7 +270,7 @@
       }
 
       if (rotateTicks) {
-        g.selectAll("text")
+        g.selectAll(".tick text")
           .attr("transform", function(d) {
             return "rotate(" + rotateTicks + ")translate("
               + (this.getBBox().width / 2 + 10) + "," // TODO: change this 10
