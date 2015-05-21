@@ -164,8 +164,12 @@
             .attr("width", function (d, i) {
               return (d.ending_time - d.starting_time) * scaleFactor;
             })
-            .attr("cy", getStackPosition)
-            .attr("cx", getXPos)
+            .attr("cy", function(d, i) {
+                return getStackPosition(d, i) + itemHeight/2;
+            })
+            .attr("cx", function(d, i) {
+                return getXPos(d, i) + itemHeight/2;
+            })
             .attr("r", itemHeight / 2)
             .attr("height", itemHeight)
             .style("fill", function(d, i){

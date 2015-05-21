@@ -43,6 +43,14 @@
         {times: [{"starting_time": 1355761910000, "ending_time": 1355763910000}]},
       ];
 
+      var rectAndCircleTestData = [
+        {times: [{"starting_time": 1355752800000,
+                 "display": "circle"}, {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
+        {times: [{"starting_time": 1355759910000,
+        "display":"circle"}, ]},
+        {times: [{"starting_time": 1355761910000, "ending_time": 1355763910000}]},
+      ];
+
       var labelTestData = [
         {label: "person a", times: [{"starting_time": 1355752800000, "ending_time": 1355759900000}, {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
         {label: "person b", times: [{"starting_time": 1355759910000, "ending_time": 1355761900000}, ]},
@@ -54,7 +62,8 @@
           {"starting_time": 1355752800000, "ending_time": 1355759900000}, 
           {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
         {class:"troll", icon: "troll.png", times: [
-          {"starting_time": 1355759910000, "ending_time": 1355761900000}, ]},
+          {"starting_time": 1355759910000, "ending_time": 1355761900000,
+          "display":"circle"}, ]},
         {class:"wat", icon: "wat.png", times: [
           {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
       ];
@@ -114,6 +123,13 @@
 
         var svg = d3.select("#timeline2").append("svg").attr("width", width)
           .datum(testData).call(chart);
+      }
+
+      function timelineRectAndCircle() {
+        var chart = d3.timeline();
+
+        var svg = d3.select("#timeline2_combine").append("svg").attr("width", width)
+          .datum(rectAndCircleTestData).call(chart);
       }
 
       function timelineHover() {
@@ -215,6 +231,7 @@
       timelineRect();
       timelineRectNoAxis();
       timelineCircle();
+      timelineRectAndCircle();
       timelineHover();
       timelineStackedIcons();
       timelineLabelColor();
@@ -237,6 +254,10 @@
   <div>
     <h3>It works with circles too</h3>
     <div id="timeline2"></div>
+  </div>
+  <div>
+    <h3>Combine circles and rectangles</h3>
+    <div id="timeline2_combine"></div>
   </div>
   <div>
     <h3>A stacked timeline with hover, click, and scroll events</h3>
