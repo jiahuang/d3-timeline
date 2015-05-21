@@ -3,7 +3,7 @@ A simple d3 timeline plugin.
 
 Get something that looks like
 
-![Rectangular Timeline](https://raw.github.com/jiahuang/d3-timeline/master/examples/timeline1.png)
+![Rectangular Timeline](examples/timeline1.png)
 
 for a dataset that looks like
 
@@ -30,18 +30,19 @@ var svg = d3.select("#timeline1").append("svg").attr("width", 500)
 
 Works with circles. In case the rectangular edges are too pointy.
 
-![Circular Timeline](https://raw.github.com/jiahuang/d3-timeline/master/examples/timeline2.png
-)
+![Circular Timeline](examples/timeline2.png)
+
+Combine rectangles and circles to your liking.
+
+![Rectangular and Circular Timeline](examples/timeline3.png)
 
 And a pseudo-gantt chart thingy
 
-![Gantt chart](https://raw.github.com/jiahuang/d3-timeline/master/examples/timeline3.png
-)
+![Gantt chart](examples/timeline4.png)
 
 And icons
 
-![Icon chart](https://raw.github.com/jiahuang/d3-timeline/master/examples/timeline4.png
-)
+![Icon chart](examples/timeline5.png)
 
 For your *really* long charts, it supports scrolling. It can even do things on hover, click, and scroll for when someone accidentially interacts with your chart.
 
@@ -73,7 +74,7 @@ var testData = [
 
 This generates `<rect>`s with `A1` and `A2` as ids. If no id is provided, the id attribute will be generated sequentially in the order they have been provided in. e.g.: `timelineItem_0_0`.
 
-Look at the [examples](https://github.com/jiahuang/d3-timeline/blob/master/examples/example.html) for more details.
+Look at the [examples](examples/example.html) for more details.
 
 ##Data formats
 
@@ -189,7 +190,7 @@ var testData = [
 ```
 Your chart's bar colors will be determined based on the value of the fruit property:
 
-![Color Timeline](examples/timeline6.png)
+![Color Timeline](examples/timeline7.png)
 
 You can also set the color property for a specific time object:
 
@@ -204,7 +205,7 @@ var testData = [
 
 Properties set in the time object will override the property set for the series:
 
-![Timeline With Per-Time Colors](examples/timeline7.png) 
+![Timeline With Per-Time Colors](examples/timeline8.png)
 
 ###.beginning(date)
 sets the time that the timeline should start. If `beginning` and `ending` are not set, the timeline will calculate it based off of the smallest and largest times.
@@ -236,7 +237,7 @@ Takes in no arguments. Toggles the visibility of the time axis.
 ###.showTimeAxisTick()
 Takes in no arguments. Shows tick marks along the X axis according to the arguments for `showTimeAxisTickFormat`. Useful for datasets with a lot of stacked elements.
 
-![Timeline With tick marks](examples/timeline8.png) 
+![Timeline With tick marks](examples/timeline9.png)
 
 ###.showTimeAxisTickFormat(format)
 Format for `showTimeAxisTick`. Defaults to ```{stroke: "stroke-dasharray", spacing: "4 10"}```.
