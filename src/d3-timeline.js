@@ -119,7 +119,7 @@
         g.append("g")
           .attr("class", "axis")
           .attr("transform", "translate(" + 0 +","+(margin.top + (itemHeight + itemMargin) * maxStack)+")")
-          .call(xAxis);  
+          .call(xAxis);
       }
 
       if (timeAxisTick) {
@@ -156,13 +156,17 @@
           }
 
           g.selectAll("svg").data(data).enter()
-            .append(display)
+            .append(function(d, i) {
+                return document.createElementNS(d3.ns.prefix.svg, "display" in d? d.display:display);
+            })
             .attr("x", getXPos)
             .attr("y", getStackPosition)
             .attr("width", function (d, i) {
               return (d.ending_time - d.starting_time) * scaleFactor;
             })
-            .attr("cy", getStackPosition)
+            .attr("cy", function(d, i) {
+                return getStackPosition(d, i) + itemHeight/2;
+            })
             .attr("cx", getXPos)
             .attr("r", itemHeight / 2)
             .attr("height", itemHeight)
