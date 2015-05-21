@@ -32,15 +32,26 @@ Works with circles. In case the rectangular edges are too pointy.
 
 ![Circular Timeline](examples/timeline2.png)
 
-Combine rectangles and circles to your liking.
+Combine rectangles and circles to your liking
 
 ![Rectangular and Circular Timeline](examples/timeline3.png)
 
-And a pseudo-gantt chart thingy
+by adding a ``display`` key to the data:
+
+```js
+var rectAndCircleTestData = [
+    {times: [{"starting_time": 1355752800000, "display": "circle"},
+             {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
+    {times: [{"starting_time": 1355759910000, "display":"circle"}, ]},
+    {times: [{"starting_time": 1355761910000, "ending_time": 1355763910000}]},
+  ];
+```
+
+Make a pseudo-gantt chart thingy
 
 ![Gantt chart](examples/timeline4.png)
 
-And icons
+with icons
 
 ![Icon chart](examples/timeline5.png)
 
