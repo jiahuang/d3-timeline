@@ -167,9 +167,7 @@
             .attr("cy", function(d, i) {
                 return getStackPosition(d, i) + itemHeight/2;
             })
-            .attr("cx", function(d, i) {
-                return getXPos(d, i) + itemHeight/2;
-            })
+            .attr("cx", getXPos)
             .attr("r", itemHeight / 2)
             .attr("height", itemHeight)
             .style("fill", function(d, i){
