@@ -136,6 +136,13 @@
         d.forEach( function(datum, index){
           var data = datum.times;
           var hasLabel = (typeof(datum.label) != "undefined");
+          var getLabel = function(label){
+            if(labelFunction == null){
+              return label;
+            } else {
+              return labelFunction(label);
+            }
+          };
 
           // issue warning about using id per data set. Ids should be individual to data elements
           if (typeof(datum.id) != "undefined") {
@@ -235,7 +242,7 @@
             gParent.append("text")
               .attr("class", "timeline-label")
               .attr("transform", "translate("+ 0 +","+ (itemHeight * 0.75 + margin.top + (itemHeight + itemMargin) * yAxisMapping[index])+")")
-              .text(hasLabel ? datum.label : datum.id)
+              .text(hasLabel ? getLabel(datum.label) : datum.id)
               .on("click", function (d, i) {
                 click(d, index, datum);
               });
@@ -409,6 +416,12 @@
     timeline.display = function (displayType) {
       if (!arguments.length || (DISPLAY_TYPES.indexOf(displayType) == -1)) return display;
       display = displayType;
+      return timeline;
+    };
+
+    timeline.labelFunction = function(f) {
+      if (!arguments.length) return null;
+      labelFunction = f;
       return timeline;
     };
 
