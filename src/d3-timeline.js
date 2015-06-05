@@ -8,6 +8,7 @@
         mouseout = function () {},
         click = function () {},
         scroll = function () {},
+        labelFunction = function() {},
         orient = "bottom",
         width = null,
         height = null,
@@ -419,7 +420,7 @@
       return timeline;
     };
 
-    timeline.labelFunction = function(f) {
+    timeline.labelFormat = function(f) {
       if (!arguments.length) return null;
       labelFunction = f;
       return timeline;

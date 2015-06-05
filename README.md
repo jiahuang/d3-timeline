@@ -154,7 +154,7 @@ sets the margin of the entire timeline inside of the svg. Defaults to 30px all a
 ###.display("circle" | "rect")
 Displays the data series as either circles or rectangles. Defaults to "rect".
 
-###.labelFunction(callback)
+###.labelFormat(callback)
 registers a function to be called when the text for the label needs to
 be generated. Useful if your label looks like this:
 ```
@@ -164,10 +164,10 @@ be generated. Useful if your label looks like this:
 }
 ```
 The callback function is passed the whatever the datum.label returns, so
-in this case it would be the object above. So the labelFunction might
+in this case it would be the object above. So the labelFormat might
 look something like this:
 ```js
-.labelFunction(function(label){ return label[currentLocale];})
+.labelFormat(function(label){ return label[currentLocale];})
 ```
 
 ###.tickFormat({format: , tickTime: , tickInterval: , tickSize: })
