@@ -41,20 +41,33 @@
         showBorderFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle}
       ;
 
-    function appendTimeAxis(g, xAxis, yPosition) {
+    var appendTimeAxis = function(g, xAxis, yPosition) {
       g.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(" + 0 + "," + yPosition + ")")
         .call(xAxis);
-    }
+    };
 
-    function appendTimeAxisTick(g, xAxis, maxStack) {
+    var appendTimeAxisTick = function(g, xAxis, maxStack) {
       g.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(" + 0 + "," + (margin.top + (itemHeight + itemMargin) * maxStack) + ")")
         .attr(timeAxisTickFormat.stroke, timeAxisTickFormat.spacing)
         .call(xAxis.tickFormat("").tickSize(-(margin.top + (itemHeight + itemMargin) * (maxStack - 1) + 3), 0, 0));
-    }
+    };
+
+    var appendBackgroundBar = function (yAxisMapping, index, g, data, datum) {
+      var greenbarYAxis = ((itemHeight + itemMargin) * yAxisMapping[index]) + margin.top + margin.bottom;
+      g.selectAll("svg").data(data).enter()
+        .insert("rect")
+        .attr("class", "row-green-bar")
+        .attr("x", fullLengthBackgrounds ? 0 : margin.left)
+        .attr("width", fullLengthBackgrounds ? width : (width - margin.right - margin.left))
+        .attr("y", greenbarYAxis)
+        .attr("height", itemHeight)
+        .attr("fill", backgroundColor instanceof Function ? backgroundColor(datum, index) : backgroundColor)
+      ;
+    };
 
     function timeline (gParent) {
       var g = gParent.append("g");
@@ -134,14 +147,6 @@
         .ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval)
         .tickSize(tickFormat.tickSize);
 
-      var belowLastItem = (margin.top + (itemHeight + itemMargin) * maxStack);
-      var aboveFirstItem = margin.top;
-      var timeAxisYPosition = showAxisTop ? aboveFirstItem : belowLastItem;
-
-      if (showTimeAxis) { appendTimeAxis(g, xAxis, timeAxisYPosition); }
-      if (timeAxisTick) { appendTimeAxisTick(g, xAxis, maxStack); }
-
-
       // draw the chart
       g.each(function(d, i) {
         d.forEach( function(datum, index){
@@ -153,18 +158,7 @@
             console.warn("d3Timeline Warning: Ids per dataset is deprecated in favor of a 'class' key. Ids are now per data element.");
           }
 
-          if (backgroundColor) {
-            var greenbarYAxis = ((itemHeight + itemMargin) * yAxisMapping[index]) + margin.top + margin.bottom;
-            g.selectAll("svg").data(data).enter()
-              .insert("rect")
-              .attr("class", "row-green-bar")
-              .attr("x", fullLengthBackgrounds ? 0 : margin.left)
-              .attr("width", fullLengthBackgrounds ? width : (width - margin.right - margin.left))
-              .attr("y", greenbarYAxis)
-              .attr("height", itemHeight)
-              .attr("fill", backgroundColor instanceof Function ? backgroundColor(datum, index) : backgroundColor)
-            ;
-          }
+          if (backgroundColor) { appendBackgroundBar(yAxisMapping, index, g, data, datum); }
 
           g.selectAll("svg").data(data).enter()
             .append(function(d, i) {
@@ -238,7 +232,6 @@
               .attr("y2", lineYAxis)
               .attr("stroke-width", 1)
               .attr("stroke", rowSeperatorsColor);
-            ;
           }
 
           // add the label
@@ -275,6 +268,12 @@
           }
         });
       });
+
+      var belowLastItem = (margin.top + (itemHeight + itemMargin) * maxStack);
+      var aboveFirstItem = margin.top;
+      var timeAxisYPosition = showAxisTop ? aboveFirstItem : belowLastItem;
+      if (showTimeAxis) { appendTimeAxis(g, xAxis, timeAxisYPosition); }
+      if (timeAxisTick) { appendTimeAxisTick(g, xAxis, maxStack); }
 
       if (width > gParentSize.width) {
         var move = function() {
@@ -505,8 +504,8 @@
     };
 
     timeline.showBorderLine = function () {
-        showBorderLine = !showBorderLine;
-        return timeline;
+      showBorderLine = !showBorderLine;
+      return timeline;
     };
 
     timeline.showBorderFormat = function(borderFormat) {
@@ -536,6 +535,7 @@
       if (!arguments.length) return rowSeperatorsColor;
       rowSeperatorsColor = color;
       return timeline;
+
     };
 
     timeline.background = function (color) {
