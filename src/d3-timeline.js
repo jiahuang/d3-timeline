@@ -22,6 +22,7 @@
         colorPropertyName = null,
         display = "rect",
         beginning = 0,
+        labelMargin = 0,
         ending = 0,
         margin = {left: 30, right:30, top: 30, bottom:30},
         stacked = false,
@@ -212,7 +213,7 @@
               if (datum.id && !d.id) {
                 return 'timelineItem_'+datum.id;
               }
-              
+
               return d.id ? d.id : "timelineItem_"+index+"_"+i;
             })
           ;
@@ -243,7 +244,7 @@
           if (hasLabel) {
             gParent.append("text")
               .attr("class", "timeline-label")
-              .attr("transform", "translate("+ 0 +","+ (itemHeight * 0.75 + margin.top + (itemHeight + itemMargin) * yAxisMapping[index])+")")
+              .attr("transform", "translate("+ labelMargin +","+ (itemHeight * 0.75 + margin.top + (itemHeight + itemMargin) * yAxisMapping[index])+")")
               .text(hasLabel ? labelFunction(datum.label) : datum.id)
               .on("click", function (d, i) {
                 click(d, index, datum);
@@ -347,16 +348,16 @@
 
       function setWidth() {
         if (!width && !gParentSize.width) {
-          try { 
+          try {
             width = gParentItem.attr("width");
             if (!width) {
               throw "width of the timeline is not set. As of Firefox 27, timeline().with(x) needs to be explicitly set in order to render";
-            }            
+            }
           } catch (err) {
             console.log( err );
           }
         } else if (!(width && gParentSize.width)) {
-          try { 
+          try {
             width = gParentItem.attr("width");
           } catch (err) {
             console.log( err );
@@ -478,6 +479,12 @@
     timeline.ending = function (e) {
       if (!arguments.length) return ending;
       ending = e;
+      return timeline;
+    };
+
+    timeline.labelMargin = function (m) {
+      if (!arguments.length) return ending;
+      labelMargin = m;
       return timeline;
     };
 
