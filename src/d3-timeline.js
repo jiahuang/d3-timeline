@@ -153,7 +153,7 @@
           }
 
           if (backgroundColor) {
-            var greenbarYAxis = ((itemHeight + itemMargin) * yAxisMapping[index]);
+            var greenbarYAxis = ((itemHeight + itemMargin) * yAxisMapping[index]) + margin.top + margin.bottom;
             g.selectAll("svg").data(data).enter()
               .insert("rect")
               .attr("class", "row-green-bar")
