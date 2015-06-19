@@ -162,7 +162,7 @@
               .attr("width", fullLengthBackgrounds ? width : (width - margin.right - margin.left))
               .attr("y", greenbarYAxis)
               .attr("height", itemHeight)
-              .attr("fill", backgroundColor)
+              .attr("fill", backgroundColor instanceof Function ? backgroundColor(datum, index) : backgroundColor)
             ;
           }
 
