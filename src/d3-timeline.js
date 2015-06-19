@@ -8,7 +8,7 @@
         mouseout = function () {},
         click = function () {},
         scroll = function () {},
-        labelFunction = function() {},
+        labelFunction = function(label) { return label; },
         orient = "bottom",
         width = null,
         height = null,
@@ -137,13 +137,6 @@
         d.forEach( function(datum, index){
           var data = datum.times;
           var hasLabel = (typeof(datum.label) != "undefined");
-          var getLabel = function(label){
-            if(labelFunction == null){
-              return label;
-            } else {
-              return labelFunction(label);
-            }
-          };
 
           // issue warning about using id per data set. Ids should be individual to data elements
           if (typeof(datum.id) != "undefined") {
@@ -243,7 +236,7 @@
             gParent.append("text")
               .attr("class", "timeline-label")
               .attr("transform", "translate("+ 0 +","+ (itemHeight * 0.75 + margin.top + (itemHeight + itemMargin) * yAxisMapping[index])+")")
-              .text(hasLabel ? getLabel(datum.label) : datum.id)
+              .text(hasLabel ? labelFunction(datum.label) : datum.id)
               .on("click", function (d, i) {
                 click(d, index, datum);
               });
