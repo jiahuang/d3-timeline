@@ -30,6 +30,7 @@
         itemHeight = 20,
         itemMargin = 5,
         showTimeAxis = true,
+        showAxisTop = false,
         showTodayLine = false,
         timeAxisTick = false,
         timeAxisTickFormat = {stroke: "stroke-dasharray", spacing: "4 10"},
@@ -37,6 +38,21 @@
         showBorderLine = false,
         showBorderFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle}
       ;
+
+    function appendTimeAxis(g, xAxis, yPosition) {
+      g.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(" + 0 + "," + yPosition + ")")
+        .call(xAxis);
+    }
+
+    function appendTimeAxisTick(g, xAxis, maxStack) {
+      g.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(" + 0 + "," + (margin.top + (itemHeight + itemMargin) * maxStack) + ")")
+        .attr(timeAxisTickFormat.stroke, timeAxisTickFormat.spacing)
+        .call(xAxis.tickFormat("").tickSize(-(margin.top + (itemHeight + itemMargin) * (maxStack - 1) + 3), 0, 0));
+    }
 
     function timeline (gParent) {
       var g = gParent.append("g");
@@ -116,22 +132,14 @@
         .ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval)
         .tickSize(tickFormat.tickSize);
 
-      if (showTimeAxis) {
-        g.append("g")
-          .attr("class", "axis")
-          .attr("transform", "translate(" + 0 +","+(margin.top + (itemHeight + itemMargin) * maxStack)+")")
-          .call(xAxis);
-      }
+      var belowLastItem = (margin.top + (itemHeight + itemMargin) * maxStack);
+      var aboveFirstItem = margin.top;
+      var timeAxisYPosition = showAxisTop ? aboveFirstItem : belowLastItem;
 
-      if (timeAxisTick) {
-        g.append("g")
-          .attr("class", "axis")
-          .attr("transform", "translate(" + 0 +","+
-            (margin.top + (itemHeight + itemMargin) * maxStack)+")")
-          .attr(timeAxisTickFormat.stroke, timeAxisTickFormat.spacing)
-          .call(xAxis.tickFormat("").tickSize(-(margin.top + (itemHeight + itemMargin) * (maxStack - 1) + 3),0,0));
-      }
-      
+      if (showTimeAxis) { appendTimeAxis(g, xAxis, timeAxisYPosition); }
+      if (timeAxisTick) { appendTimeAxisTick(g, xAxis, maxStack); }
+
+
       // draw the chart
       g.each(function(d, i) {
         d.forEach( function(datum, index){
@@ -533,6 +541,11 @@
       return timeline;
     };
 
+    timeline.showAxisTop = function () {
+      showAxisTop = !showAxisTop;
+      return timeline;
+    };
+
     timeline.showTimeAxisTick = function () {
       timeAxisTick = !timeAxisTick;
       return timeline;
@@ -542,7 +555,7 @@
       if (!arguments.length) return timeAxisTickFormat;
       timeAxisTickFormat = format;
       return timeline;
-    }
+    };
 
     return timeline;
   };
