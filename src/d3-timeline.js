@@ -69,6 +69,19 @@
       ;
     };
 
+    var appendLabel = function (gParent, yAxisMapping, index, hasLabel, datum) {
+      var fullItemHeight    = itemHeight + itemMargin;
+      var positionAtRow     = fullItemHeight * (yAxisMapping[index] || 1);
+      var positionWithinRow = (fullItemHeight / 2);
+      var yPosition         = positionWithinRow + positionAtRow;
+
+      gParent.append("text")
+        .attr("class", "timeline-label")
+        .attr("transform", "translate(" + labelMargin + "," + yPosition + ")")
+        .text(hasLabel ? labelFunction(datum.label) : datum.id)
+        .on("click", function (d, i) { click(d, index, datum); });
+    };
+
     function timeline (gParent) {
       var g = gParent.append("g");
       var gParentSize = gParent[0][0].getBoundingClientRect();
@@ -235,15 +248,7 @@
           }
 
           // add the label
-          if (hasLabel) {
-            gParent.append("text")
-              .attr("class", "timeline-label")
-              .attr("transform", "translate("+ labelMargin +","+ (itemHeight * 0.75 + margin.top + (itemHeight + itemMargin) * yAxisMapping[index])+")")
-              .text(hasLabel ? labelFunction(datum.label) : datum.id)
-              .on("click", function (d, i) {
-                click(d, index, datum);
-              });
-          }
+          if (hasLabel) { appendLabel(gParent, yAxisMapping, index, hasLabel, datum); }
 
           if (typeof(datum.icon) !== "undefined") {
             gParent.append("image")
