@@ -28,6 +28,7 @@
         stacked = false,
         rotateTicks = false,
         timeIsRelative = false,
+        fullLengthBackgrounds = false,
         itemHeight = 20,
         itemMargin = 5,
         showTimeAxis = true,
@@ -157,8 +158,8 @@
             g.selectAll("svg").data(data).enter()
               .insert("rect")
               .attr("class", "row-green-bar")
-              .attr("x", 0 + margin.left)
-              .attr("width", width - margin.right - margin.left)
+              .attr("x", fullLengthBackgrounds ? 0 : margin.left)
+              .attr("width", fullLengthBackgrounds ? width : (width - margin.right - margin.left))
               .attr("y", greenbarYAxis)
               .attr("height", itemHeight)
               .attr("fill", backgroundColor)
@@ -555,6 +556,11 @@
 
     timeline.showTimeAxisTick = function () {
       timeAxisTick = !timeAxisTick;
+      return timeline;
+    };
+
+    timeline.fullLengthBackgrounds = function () {
+      fullLengthBackgrounds = !fullLengthBackgrounds;
       return timeline;
     };
 
