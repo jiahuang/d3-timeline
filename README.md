@@ -15,7 +15,7 @@ var testData = [
   {label: "person b", times: [
     {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
   {label: "person c", times: [
-    {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
+    {"starting_time": 1355761910000, "ending_time": 1355763910000}]}
   ];
 ```
 
@@ -43,7 +43,7 @@ var rectAndCircleTestData = [
     {times: [{"starting_time": 1355752800000, "display": "circle"},
              {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
     {times: [{"starting_time": 1355759910000, "display":"circle"}, ]},
-    {times: [{"starting_time": 1355761910000, "ending_time": 1355763910000}]},
+    {times: [{"starting_time": 1355761910000, "ending_time": 1355763910000}]}
   ];
 ```
 
@@ -67,7 +67,7 @@ var testData = [
   {class: "pB", label: "person b", times: [
     {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
   {class: "pC", label: "person c", times: [
-    {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
+    {"starting_time": 1355761910000, "ending_time": 1355763910000}]}
   ];
 ```
 would generate `<rect>` with the following classes: `timelineItem_pA`,`timelineItem_pB`,`timelineItem_pC`. This means that you can dynamically change the visual properties of each timeline item using JQuery like so: `$(".timelineSeries_pA").css("fill","blue");`.
@@ -128,7 +128,7 @@ Each item in the times array must have `starting_time` and `ending_time`.  You c
 [
    {label: "person a", times: [{"color":"green", "label":"Weeee", "starting_time": 1355752800000, "ending_time": 1355759900000}, {"color":"blue", "label":"Weeee", "starting_time": 1355767900000, "ending_time": 1355774400000}]},
    {label: "person b", times: [{"color":"pink", "label":"Weeee", "starting_time": 1355759910000, "ending_time": 1355761900000}, ]},
-   {label: "person c", times: [{"color":"yellow", "label":"Weeee", "starting_time": 1355761910000, "ending_time": 1355763910000}]},
+   {label: "person c", times: [{"color":"yellow", "label":"Weeee", "starting_time": 1355761910000, "ending_time": 1355763910000}]}
 ];
 ```
 
@@ -212,7 +212,7 @@ var testData = [
     {"starting_time": 1355752800000, "ending_time": 1355759900000},
     {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
   {label: "fruit3", fruit: "lemon", times: [
-    {"starting_time": 1355761910000, "ending_time": 1355763910000}]},
+    {"starting_time": 1355761910000, "ending_time": 1355763910000}]}
   ];
 ```
 Your chart's bar colors will be determined based on the value of the fruit property:
