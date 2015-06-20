@@ -57,7 +57,7 @@
     };
 
     var appendBackgroundBar = function (yAxisMapping, index, g, data, datum) {
-      var greenbarYAxis = ((itemHeight + itemMargin) * yAxisMapping[index]) + margin.top + margin.bottom;
+      var greenbarYAxis = ((itemHeight + itemMargin) * yAxisMapping[index]) + margin.top;
       g.selectAll("svg").data(data).enter()
         .insert("rect")
         .attr("class", "row-green-bar")
@@ -71,13 +71,11 @@
 
     var appendLabel = function (gParent, yAxisMapping, index, hasLabel, datum) {
       var fullItemHeight    = itemHeight + itemMargin;
-      var positionAtRow     = fullItemHeight * (yAxisMapping[index] || 1);
-      var positionWithinRow = (fullItemHeight / 2);
-      var yPosition         = positionWithinRow + positionAtRow;
+      var rowsDown          = fullItemHeight * (yAxisMapping[index] || 1);
 
       gParent.append("text")
         .attr("class", "timeline-label")
-        .attr("transform", "translate(" + labelMargin + "," + yPosition + ")")
+        .attr("transform", "translate(" + labelMargin + "," + rowsDown + ")")
         .text(hasLabel ? labelFunction(datum.label) : datum.id)
         .on("click", function (d, i) { click(d, index, datum); });
     };

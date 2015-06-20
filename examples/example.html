@@ -228,6 +228,49 @@
           console.log(testDataRelative);
       }
 
+      function timelineAxisTop() {
+        var chart = d3.timeline().showAxisTop().stack();
+
+        var svg = d3.select("#timelineAxisTop").append("svg").attr("width", width)
+            .datum(testData).call(chart);
+      }
+
+      function timelineBgndTick() {
+        var chart = d3.timeline().stack().showTimeAxisTick().background('grey');
+
+        var svg = d3.select("#timelineBgndTick").append("svg").attr("width", width)
+            .datum(testData).call(chart);
+      }
+
+      function timelineBgnd() {
+        var chart = d3.timeline().stack().background('grey');
+
+        var svg = d3.select("#timelineBgnd").append("svg").attr("width", width)
+            .datum(testData).call(chart);
+      }
+
+   function timelineComplex() {
+        var chart = d3.timeline();
+     chart.stack();
+     chart.showTimeAxisTick();
+//     chart.showAxisTop();
+//     chart.showToday();
+//     chart.itemHeight(50);
+     chart.margin({left: 250, right: 0, top: 20, bottom: 0});
+     chart.itemMargin(0);
+     chart.labelMargin(25);
+
+     var backgroundColor = "#FCFCFD";
+     var altBackgroundColor = "red";
+     chart.background(function (datum, i) {
+       var odd = (i % 2) === 0;
+       return odd ? altBackgroundColor : backgroundColor;
+     });
+     chart.fullLengthBackgrounds();
+        var svg = d3.select("#timelineComplex").append("svg").attr("width", width)
+            .datum(labelTestData).call(chart);
+      }
+
       timelineRect();
       timelineRectNoAxis();
       timelineCircle();
@@ -239,6 +282,10 @@
       timelineRectColors();
       timelineRectColorsPerTime();
       timelineRelativeTime();
+      timelineAxisTop();
+      timelineBgndTick();
+      timelineBgnd();
+      timelineComplex();
     }
   </script>
 </head>
@@ -296,6 +343,26 @@
   <div>
     <h3>A timeline with relative timepoints</h3>
     <div width="100%" id="timelineRelativeTime"></div>
+  </div>
+
+  <div>
+    <h3>A stacked timeline with axis on top</h3>
+    <div width="100%" id="timelineAxisTop"></div>
+  </div>
+
+  <div>
+    <h3>A stacked timeline with backgrounds</h3>
+    <div width="100%" id="timelineBgnd"></div>
+  </div>
+
+  <div>
+    <h3>A stacked timeline with backgrounds and ticks</h3>
+    <div width="100%" id="timelineBgndTick"></div>
+  </div>
+
+  <div>
+    <h3>A complex timeline</h3>
+    <div width="100%" id="timelineComplex"></div>
   </div>
 
 </body>
