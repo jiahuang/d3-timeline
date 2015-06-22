@@ -71,7 +71,7 @@
 
     var appendLabel = function (gParent, yAxisMapping, index, hasLabel, datum) {
       var fullItemHeight    = itemHeight + itemMargin;
-      var rowsDown          = fullItemHeight * (yAxisMapping[index] || 1);
+      var rowsDown          = fullItemHeight + fullItemHeight * (yAxisMapping[index] || 1);
 
       gParent.append("text")
         .attr("class", "timeline-label")
