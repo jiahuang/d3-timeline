@@ -38,14 +38,29 @@
         timeAxisTickFormat = {stroke: "stroke-dasharray", spacing: "4 10"},
         showTodayFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle},
         showBorderLine = false,
-        showBorderFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle}
+        showBorderFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle},
+        showAxisHeaderBackground = false,
+        axisBgColor = "white"
       ;
 
     var appendTimeAxis = function(g, xAxis, yPosition) {
+
+      if(showAxisHeaderBackground){ appendAxisHeaderBackground(g, 0, 0); }
+
       g.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(" + 0 + "," + yPosition + ")")
         .call(xAxis);
+    };
+
+    var appendAxisHeaderBackground = function (g, xAxis, yAxis) {
+      g.insert("rect")
+        .attr("class", "row-green-bar")
+        .attr("x", xAxis)
+        .attr("width", width)
+        .attr("y", yAxis)
+        .attr("height", itemHeight)
+        .attr("fill", axisBgColor);
     };
 
     var appendTimeAxisTick = function(g, xAxis, maxStack) {
@@ -570,6 +585,12 @@
     timeline.showTimeAxisTickFormat = function(format) {
       if (!arguments.length) return timeAxisTickFormat;
       timeAxisTickFormat = format;
+      return timeline;
+    };
+
+    timeline.showAxisHeaderBackground = function(bgColor) {
+      showAxisHeaderBackground = !showAxisHeaderBackground;
+      if(bgColor) { (axisBgColor = bgColor) };
       return timeline;
     };
 
