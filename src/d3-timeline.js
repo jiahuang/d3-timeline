@@ -9,6 +9,8 @@
         click = function () {},
         scroll = function () {},
         labelFunction = function(label) { return label; },
+        navigateLeft = function () {},
+        navigateRight = function () {},
         orient = "bottom",
         width = null,
         height = null,
@@ -40,17 +42,43 @@
         showBorderLine = false,
         showBorderFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle},
         showAxisHeaderBackground = false,
-        axisBgColor = "white"
+        axisBgColor = "white",
+        chartData = {}
       ;
 
     var appendTimeAxis = function(g, xAxis, yPosition) {
 
       if(showAxisHeaderBackground){ appendAxisHeaderBackground(g, 0, 0); }
 
-      g.append("g")
+      var nav = g.append('g')
+        .attr("class", "axis")
+        .attr("transform", "translate(0, 20)")
+      ;
+
+      nav.append("text")
+        .attr("transform", "translate(200, 0)")
+        .attr("x", 0)
+        .attr("y", 14)
+        .attr("class", "chevron")
+        .text("<")
+        .on("click", function(){
+          return navigateLeft(beginning, chartData);
+        })
+      ;
+
+      var axis = g.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(" + 0 + "," + yPosition + ")")
         .call(xAxis);
+
+
+      //<g class="axis" transform="translate(0,20)">
+      /*
+       <g class="axis" transform="translate(0,20)">
+        <text dy=".71em" transform="translate(200,0)" y="4" x="0" style="text-anchor: middle;">&lt;</text>
+       </g>
+
+      * */
     };
 
     var appendAxisHeaderBackground = function (g, xAxis, yAxis) {
@@ -175,6 +203,7 @@
 
       // draw the chart
       g.each(function(d, i) {
+        chartData = d;
         d.forEach( function(datum, index){
           var data = datum.times;
           var hasLabel = (typeof(datum.label) != "undefined");
@@ -591,6 +620,15 @@
     timeline.showAxisHeaderBackground = function(bgColor) {
       showAxisHeaderBackground = !showAxisHeaderBackground;
       if(bgColor) { (axisBgColor = bgColor) };
+      return timeline;
+    };
+
+    timeline.navigate = function (navigateBackwards, navigateForwards) {
+      if (!arguments.length) return navigateBack;
+
+      navigateLeft = navigateBackwards;
+      navigateRight = navigateForwards;
+
       return timeline;
     };
 
