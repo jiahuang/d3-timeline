@@ -44,10 +44,10 @@
         showBorderFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle},
         showAxisHeaderBackground = false,
         showAxisNav = false,
+        showAxisCalendarYear = false,
         axisBgColor = "white",
         chartData = {}
       ;
-
 
     var appendTimeAxis = function(g, xAxis, yPosition) {
 
@@ -61,6 +61,21 @@
         .call(xAxis);
     };
 
+    var appendTimeAxisCalendarYear = function (nav) {
+      var calendarLabel = beginning.getFullYear();
+
+      if (beginning.getFullYear() != ending.getFullYear()) {
+        calendarLabel = beginning.getFullYear() + "-" + ending.getFullYear()
+      }
+
+      nav.append("text")
+        .attr("transform", "translate(" + 20 + ", 0)")
+        .attr("x", 0)
+        .attr("y", 14)
+        .attr("class", "calendarYear")
+        .text(calendarLabel)
+      ;
+    };
     var appendTimeAxisNav = function (g) {
       var timelineBlocks = 6;
       var leftNavMargin = (margin.left - navMargin);
@@ -71,6 +86,8 @@
           .attr("class", "axis")
           .attr("transform", "translate(0, 20)")
         ;
+
+      if(showAxisCalendarYear) { appendTimeAxisCalendarYear(nav) };
 
       nav.append("text")
         .attr("transform", "translate(" + leftNavMargin + ", 0)")
@@ -618,6 +635,11 @@
 
     timeline.showAxisTop = function () {
       showAxisTop = !showAxisTop;
+      return timeline;
+    };
+
+    timeline.showAxisCalendarYear = function () {
+      showAxisCalendarYear = !showAxisCalendarYear;
       return timeline;
     };
 
