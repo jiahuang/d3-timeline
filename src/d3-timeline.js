@@ -33,6 +33,7 @@
         fullLengthBackgrounds = false,
         itemHeight = 20,
         itemMargin = 5,
+        navMargin = 60,
         showTimeAxis = true,
         showAxisTop = false,
         showTodayLine = false,
@@ -61,13 +62,18 @@
     };
 
     var appendTimeAxisNav = function (g) {
+      var timelineBlocks = 6;
+      var leftNavMargin = (margin.left - navMargin);
+      var incrementValue = (width - margin.left)/timelineBlocks;
+      var rightNavMargin = (width - margin.right - incrementValue + navMargin);
+
       var nav = g.append('g')
           .attr("class", "axis")
           .attr("transform", "translate(0, 20)")
         ;
 
       nav.append("text")
-        .attr("transform", "translate(170, 0)")
+        .attr("transform", "translate(" + leftNavMargin + ", 0)")
         .attr("x", 0)
         .attr("y", 14)
         .attr("class", "chevron")
@@ -78,7 +84,7 @@
       ;
 
       nav.append("text")
-        .attr("transform", "translate(917, 0)")
+        .attr("transform", "translate(" + rightNavMargin + ", 0)")
         .attr("x", 0)
         .attr("y", 14)
         .attr("class", "chevron")
@@ -456,6 +462,12 @@
     timeline.itemMargin = function (h) {
       if (!arguments.length) return itemMargin;
       itemMargin = h;
+      return timeline;
+    };
+
+    timeline.navMargin = function (h) {
+      if (!arguments.length) return navMargin;
+      navMargin = h;
       return timeline;
     };
 
