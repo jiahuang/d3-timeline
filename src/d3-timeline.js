@@ -42,43 +42,51 @@
         showBorderLine = false,
         showBorderFormat = {marginTop: 25, marginBottom: 0, width: 1, color: colorCycle},
         showAxisHeaderBackground = false,
+        showAxisNav = false,
         axisBgColor = "white",
         chartData = {}
       ;
+
 
     var appendTimeAxis = function(g, xAxis, yPosition) {
 
       if(showAxisHeaderBackground){ appendAxisHeaderBackground(g, 0, 0); }
 
-      var nav = g.append('g')
-        .attr("class", "axis")
-        .attr("transform", "translate(0, 20)")
-      ;
-
-      nav.append("text")
-        .attr("transform", "translate(200, 0)")
-        .attr("x", 0)
-        .attr("y", 14)
-        .attr("class", "chevron")
-        .text("<")
-        .on("click", function(){
-          return navigateLeft(beginning, chartData);
-        })
-      ;
+      if(showAxisNav){ appendTimeAxisNav(g) };
 
       var axis = g.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(" + 0 + "," + yPosition + ")")
         .call(xAxis);
+    };
 
+    var appendTimeAxisNav = function (g) {
+      var nav = g.append('g')
+          .attr("class", "axis")
+          .attr("transform", "translate(0, 20)")
+        ;
 
-      //<g class="axis" transform="translate(0,20)">
-      /*
-       <g class="axis" transform="translate(0,20)">
-        <text dy=".71em" transform="translate(200,0)" y="4" x="0" style="text-anchor: middle;">&lt;</text>
-       </g>
+      nav.append("text")
+        .attr("transform", "translate(170, 0)")
+        .attr("x", 0)
+        .attr("y", 14)
+        .attr("class", "chevron")
+        .text("<")
+        .on("click", function () {
+          return navigateLeft(beginning, chartData);
+        })
+      ;
 
-      * */
+      nav.append("text")
+        .attr("transform", "translate(917, 0)")
+        .attr("x", 0)
+        .attr("y", 14)
+        .attr("class", "chevron")
+        .text(">")
+        .on("click", function () {
+          return navigateRight(ending, chartData);
+        })
+      ;
     };
 
     var appendAxisHeaderBackground = function (g, xAxis, yAxis) {
@@ -624,11 +632,9 @@
     };
 
     timeline.navigate = function (navigateBackwards, navigateForwards) {
-      if (!arguments.length) return navigateBack;
-
       navigateLeft = navigateBackwards;
       navigateRight = navigateForwards;
-
+      showAxisNav = !showAxisNav;
       return timeline;
     };
 
