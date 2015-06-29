@@ -229,8 +229,13 @@
         .scale(xScale)
         .orient(orient)
         .tickFormat(tickFormat.format)
-        .ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval)
         .tickSize(tickFormat.tickSize);
+
+      if (tickFormat.tickValues !== null) {
+        xAxis.tickValues(tickFormat.tickValues);
+      } else {
+        xAxis.ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval);
+      }
 
       // draw the chart
       g.each(function(d, i) {
