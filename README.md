@@ -170,7 +170,7 @@ look something like this:
 .labelFormat(function(label){ return label[currentLocale];})
 ```
 
-###.tickFormat({format: , tickTime: , tickInterval: , tickSize: })
+###.tickFormat({format: , tickTime: , tickInterval: , tickSize: , numTicks: , tickValues})
 sets the formatting of the ticks in the timeline. Defaults to
 ```js
 {
@@ -180,6 +180,11 @@ sets the formatting of the ticks in the timeline. Defaults to
   tickSize: 6
 }
 ```
+Tick interval/values can be set with:
+
+- ``tickTime`` and ``tickInterval``
+- ``numTicks`` and ``tickInterval``
+- ``tickValues``
 
 ###.rotateTicks(degrees)
 sets the degree of rotation of the tickmarks. Defaults to no rotation (0 degrees).
