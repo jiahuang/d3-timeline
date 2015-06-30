@@ -19,7 +19,9 @@
         tickFormat = { format: d3.time.format("%I %p"),
           tickTime: d3.time.hours,
           tickInterval: 1,
-          tickSize: 6 },
+          tickSize: 6,
+          tickValues: null
+        },
         colorCycle = d3.scale.category20(),
         colorPropertyName = null,
         display = "rect",
@@ -231,7 +233,7 @@
         .tickFormat(tickFormat.format)
         .tickSize(tickFormat.tickSize);
 
-      if (tickFormat.tickValues !== null) {
+      if (tickFormat.tickValues != null) {
         xAxis.tickValues(tickFormat.tickValues);
       } else {
         xAxis.ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval);
