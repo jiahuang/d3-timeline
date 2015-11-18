@@ -55,7 +55,7 @@ with icons
 
 ![Icon chart](examples/timeline5.png)
 
-For your *really* long charts, it supports scrolling. It can even do things on hover, click, and scroll for when someone accidentially interacts with your chart.
+For your *really* long charts, it supports scrolling. It can even do things on hover, click, and scroll for when someone accidentally interacts with your chart.
 
 You can also specify an optional `class` key in the data dictionary. This will label each timeline rectangle item within the visualization with the following id property: "timelineItem_"+class. For example, this data
 
@@ -73,7 +73,7 @@ var testData = [
 would generate `<rect>` with the following classes: `timelineItem_pA`,`timelineItem_pB`,`timelineItem_pC`. This means that you can dynamically change the visual properties of each timeline item using JQuery like so: `$(".timelineSeries_pA").css("fill","blue");`.
 If no custom class is provided, the class attribute will be generated sequentially in the order they have been provided in. e.g.: `timelineSeries_0`.
 
-Also optional is an `id` field per data element. 
+Also optional is an `id` field per data element.
 
 ```js
 var testData = [
@@ -278,7 +278,7 @@ Defaults to
   color: colorCycle
 }
 ```
-###.rowSeperators(color)
+###.rowSeparators(color)
 Sets the display of horizontal lines betweens rows.
 
 ###.background(color)
