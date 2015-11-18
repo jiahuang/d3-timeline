@@ -14,7 +14,7 @@
         orient = "bottom",
         width = null,
         height = null,
-        rowSeperatorsColor = null,
+        rowSeparatorsColor = null,
         backgroundColor = null,
         tickFormat = { format: d3.time.format("%I %p"),
           tickTime: d3.time.hours,
@@ -308,16 +308,16 @@
             })
           ;
 
-          if (rowSeperatorsColor) {
+          if (rowSeparatorsColor) {
             var lineYAxis = ( itemHeight + itemMargin / 2 + margin.top + (itemHeight + itemMargin) * yAxisMapping[index]);
             gParent.append("svg:line")
-              .attr("class", "row-seperator")
+              .attr("class", "row-separator")
               .attr("x1", 0 + margin.left)
               .attr("x2", width - margin.right)
               .attr("y1", lineYAxis)
               .attr("y2", lineYAxis)
               .attr("stroke-width", 1)
-              .attr("stroke", rowSeperatorsColor);
+              .attr("stroke", rowSeparatorsColor);
           }
 
           // add the label
@@ -507,7 +507,7 @@
     };
 
     timeline.labelFormat = function(f) {
-      if (!arguments.length) return null;
+      if (!arguments.length) return labelFunction;
       labelFunction = f;
       return timeline;
     };
@@ -525,14 +525,14 @@
     };
 
     timeline.mouseover = function (mouseoverFunc) {
-      if (!arguments.length) return mouseoverFunc;
+      if (!arguments.length) return mouseover;
       mouseover = mouseoverFunc;
       return timeline;
     };
 
-    timeline.mouseout = function (mouseoverFunc) {
-      if (!arguments.length) return mouseoverFunc;
-      mouseout = mouseoverFunc;
+    timeline.mouseout = function (mouseoutFunc) {
+      if (!arguments.length) return mouseout;
+      mouseout = mouseoutFunc;
       return timeline;
     };
 
@@ -567,12 +567,13 @@
     };
 
     timeline.labelMargin = function (m) {
-      if (!arguments.length) return ending;
+      if (!arguments.length) return labelMargin;
       labelMargin = m;
       return timeline;
     };
 
     timeline.rotateTicks = function (degrees) {
+      if (!arguments.length) return rotateTicks;
       rotateTicks = degrees;
       return timeline;
     };
@@ -615,9 +616,9 @@
       return timeline;
     };
 
-    timeline.rowSeperators = function (color) {
-      if (!arguments.length) return rowSeperatorsColor;
-      rowSeperatorsColor = color;
+    timeline.rowSeparators = function (color) {
+      if (!arguments.length) return rowSeparatorsColor;
+      rowSeparatorsColor = color;
       return timeline;
 
     };
@@ -666,6 +667,7 @@
     };
 
     timeline.navigate = function (navigateBackwards, navigateForwards) {
+      if (!arguments.length) return [navigateLeft, navigateRight];
       navigateLeft = navigateBackwards;
       navigateRight = navigateForwards;
       showAxisNav = !showAxisNav;
