@@ -53,7 +53,7 @@
 
       if(showAxisHeaderBackground){ appendAxisHeaderBackground(g, 0, 0); }
 
-      if(showAxisNav){ appendTimeAxisNav(g) };
+      if(showAxisNav){ appendTimeAxisNav(g); }
 
       var axis = g.append("g")
         .attr("class", "axis")
@@ -65,7 +65,7 @@
       var calendarLabel = beginning.getFullYear();
 
       if (beginning.getFullYear() != ending.getFullYear()) {
-        calendarLabel = beginning.getFullYear() + "-" + ending.getFullYear()
+        calendarLabel = beginning.getFullYear() + "-" + ending.getFullYear();
       }
 
       nav.append("text")
@@ -87,7 +87,7 @@
           .attr("transform", "translate(0, 20)")
         ;
 
-      if(showAxisCalendarYear) { appendTimeAxisCalendarYear(nav) };
+      if(showAxisCalendarYear) { appendTimeAxisCalendarYear(nav); }
 
       nav.append("text")
         .attr("transform", "translate(" + leftNavMargin + ", 0)")
@@ -371,9 +371,9 @@
       if (rotateTicks) {
         g.selectAll(".tick text")
           .attr("transform", function(d) {
-            return "rotate(" + rotateTicks + ")translate("
-              + (this.getBBox().width / 2 + 10) + "," // TODO: change this 10
-              + this.getBBox().height / 2 + ")";
+            return "rotate(" + rotateTicks + ")translate(" +
+              (this.getBBox().width / 2 + 10) + "," + // TODO: change this 10
+              this.getBBox().height / 2 + ")";
           });
       }
 
@@ -661,7 +661,7 @@
 
     timeline.showAxisHeaderBackground = function(bgColor) {
       showAxisHeaderBackground = !showAxisHeaderBackground;
-      if(bgColor) { (axisBgColor = bgColor) };
+      if(bgColor) { (axisBgColor = bgColor); }
       return timeline;
     };
 
