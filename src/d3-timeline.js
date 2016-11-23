@@ -310,6 +310,7 @@
             .append("text")
             .attr("x", getXTextPos)
             .attr("y", getStackTextPosition)
+            .attr("class", "label")
             .text(function(d) {
               return d.label;
             })
