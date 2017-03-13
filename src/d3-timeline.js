@@ -16,13 +16,13 @@
         height = null,
         rowSeparatorsColor = null,
         backgroundColor = null,
-        tickFormat = { format: d3.time.format("%I %p"),
-          tickTime: d3.time.hours,
+        tickFormat = { format: d3.timeFormat("%I %p"),
+          tickTime: d3.timeHour,
           tickInterval: 1,
           tickSize: 6,
           tickValues: null
         },
-        colorCycle = d3.scale.category20(),
+        colorCycle = d3.scaleOrdinal(d3.schemeCategory20),
         colorPropertyName = null,
         display = "rect",
         beginning = 0,
@@ -158,9 +158,10 @@
 
     function timeline (gParent) {
       var g = gParent.append("g");
-      var gParentSize = gParent[0][0].getBoundingClientRect();
+      //var gParentSize = gParent[0][0].getBoundingClientRect();
+      var gParentSize = gParent.node().getBoundingClientRect();
 
-      var gParentItem = d3.select(gParent[0][0]);
+      var gParentItem = d3.select(gParent);//[0][0]);
 
       var yAxisMapping = {},
         maxStack = 1,
@@ -223,20 +224,18 @@
       var scaleFactor = (1/(ending - beginning)) * (width - margin.left - margin.right);
 
       // draw the axis
-      var xScale = d3.time.scale()
+      var xScale = d3.scaleTime()
         .domain([beginning, ending])
         .range([margin.left, width - margin.right]);
 
-      var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient(orient)
+      var xAxis = d3.axisBottom(xScale)
         .tickFormat(tickFormat.format)
         .tickSize(tickFormat.tickSize);
 
       if (tickFormat.tickValues != null) {
         xAxis.tickValues(tickFormat.tickValues);
       } else {
-        xAxis.ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval);
+        xAxis.tickArguments(tickFormat.numTicks || [tickFormat.tickTime, tickFormat.tickInterval]);
       }
 
       // draw the chart
@@ -255,7 +254,7 @@
 
           g.selectAll("svg").data(data).enter()
             .append(function(d, i) {
-                return document.createElementNS(d3.ns.prefix.svg, "display" in d? d.display:display);
+                return document.createElementNS(d3.namespaces.svg, "display" in d? d.display:display);
             })
             .attr("x", getXPos)
             .attr("y", getStackPosition)
@@ -362,13 +361,15 @@
 
       if (width > gParentSize.width) {
         var move = function() {
-          var x = Math.min(0, Math.max(gParentSize.width - width, d3.event.translate[0]));
-          zoom.translate([x, 0]);
+          var x = Math.min(0, Math.max(gParentSize.width - width, d3.event.transform.x));
+          //zoom.translate([x, 0]);
           g.attr("transform", "translate(" + x + ",0)");
+          //g.x(xScale);
+          //g.call(xAxis.scale(d3.event.transform.rescaleX(x)));
           scroll(x*scaleFactor, xScale);
         };
 
-        var zoom = d3.behavior.zoom().x(xScale).on("zoom", move);
+        var zoom = d3.zoom().on("zoom", move); //.x(xScale)
 
         gParent
           .attr("class", "scrollable")
@@ -384,7 +385,7 @@
           });
       }
 
-      var gSize = g[0][0].getBoundingClientRect();
+      var gSize = g.node().getBoundingClientRect();
       setHeight();
 
       if (showBorderLine) {
@@ -413,20 +414,20 @@
       }
 
       function setHeight() {
-        if (!height && !gParentItem.attr("height")) {
+        if (!height && !gParentItem.height) {
           if (itemHeight) {
             // set height based off of item height
             height = gSize.height + gSize.top - gParentSize.top;
             // set bounding rectangle height
-            d3.select(gParent[0][0]).attr("height", height);
+            d3.select(gParent).node().attr("height", height);
           } else {
             throw "height of the timeline is not set";
           }
         } else {
           if (!height) {
-            height = gParentItem.attr("height");
+            height = gParentSize.height;
           } else {
-            gParentItem.attr("height", height);
+            gParentItem.node().attr("height", height);
           }
         }
       }
@@ -434,16 +435,16 @@
       function setWidth() {
         if (!width && !gParentSize.width) {
           try {
-            width = gParentItem.attr("width");
+            width = gParentItem.node().attr("width");
             if (!width) {
               throw "width of the timeline is not set. As of Firefox 27, timeline().with(x) needs to be explicitly set in order to render";
             }
           } catch (err) {
             console.log( err );
           }
-        } else if (!(width && gParentSize.width)) {
+        } else if (!width && gParentSize.width) {
           try {
-            width = gParentItem.attr("width");
+            width = gParentSize.width;
           } catch (err) {
             console.log( err );
           }
