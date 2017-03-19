@@ -134,8 +134,9 @@
 
     var appendBackgroundBar = function (yAxisMapping, index, g, data, datum) {
       var greenbarYAxis = ((itemHeight + itemMargin) * yAxisMapping[index]) + margin.top;
-      g.selectAll("svg").data(data).enter()
-        .insert("rect")
+      g.selectAll("svg")
+        .data(data).enter()
+        .insert("rect",":first-child")
         .attr("class", "row-green-bar")
         .attr("x", fullLengthBackgrounds ? 0 : margin.left)
         .attr("width", fullLengthBackgrounds ? width : (width - margin.right - margin.left))
@@ -158,10 +159,9 @@
 
     function timeline (gParent) {
       var g = gParent.append("g");
-      //var gParentSize = gParent[0][0].getBoundingClientRect();
       var gParentSize = gParent.node().getBoundingClientRect();
 
-      var gParentItem = d3.select(gParent);//[0][0]);
+      var gParentItem = d3.select(gParent);
 
       var yAxisMapping = {},
         maxStack = 1,
@@ -228,8 +228,8 @@
         .domain([beginning, ending])
         .range([margin.left, width - margin.right]);
 
-      var xAxis = d3.axisBottom(xScale)
-        .tickFormat(tickFormat.format)
+      var xAxis = (orient == "bottom") ? d3.axisBottom(xScale) : d3.axisTop(xScale);
+      xAxis.tickFormat(tickFormat.format)
         .tickSize(tickFormat.tickSize);
 
       if (tickFormat.tickValues != null) {
@@ -238,7 +238,7 @@
         xAxis.tickArguments(tickFormat.numTicks || [tickFormat.tickTime, tickFormat.tickInterval]);
       }
 
-      // draw the chart
+      var viewport = g.append("g").attr("class","viewport");
       g.each(function(d, i) {
         chartData = d;
         d.forEach( function(datum, index){
@@ -252,7 +252,7 @@
 
           if (backgroundColor) { appendBackgroundBar(yAxisMapping, index, g, data, datum); }
 
-          g.selectAll("svg").data(data).enter()
+          viewport.selectAll("svg").data(data).enter()
             .append(function(d, i) {
                 return document.createElementNS(d3.namespaces.svg, "display" in d? d.display:display);
             })
@@ -359,17 +359,29 @@
       if (showTimeAxis) { appendTimeAxis(g, xAxis, timeAxisYPosition); }
       if (timeAxisTick) { appendTimeAxisTick(g, xAxis, maxStack); }
 
-      if (width > gParentSize.width) {
+      if (width > gParentSize.width) { // only if the scrolling should be allowed
         var move = function() {
-          var x = Math.min(0, Math.max(gParentSize.width - width, d3.event.transform.x));
-          //zoom.translate([x, 0]);
-          g.attr("transform", "translate(" + x + ",0)");
-          //g.x(xScale);
-          //g.call(xAxis.scale(d3.event.transform.rescaleX(x)));
-          scroll(x*scaleFactor, xScale);
+          g.select(".viewport")
+            .attr("transform", "translate(" + d3.event.transform.x + ",0)"
+                             + "scale(" + d3.event.transform.k + " 1)"); 
+          // translate the x-axis together with the data
+          g.select(".axis .domain")
+            .attr("transform", "translate(" + d3.event.transform.x + ",0)"
+                             + "scale(" + d3.event.transform.k + " 1)"); 
+
+          new_xScale = d3.event.transform.rescaleX(xScale);                    
+          g.select('.axis').call(xAxis.scale(new_xScale));
+
+          var xpos = -d3.event.transform.x;
+          scroll(xpos, xScale);          
         };
 
-        var zoom = d3.zoom().on("zoom", move); //.x(xScale)
+        var zoom = d3.zoom()
+                      .scaleExtent([scaleFactor, 10]) // max zoom 10
+                      .translateExtent([[-gParentSize.width, 0], [width + 90, 0]]) // don't allow translating y-axis
+                      .on("zoom", move);
+
+
 
         gParent
           .attr("class", "scrollable")
