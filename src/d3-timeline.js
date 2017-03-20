@@ -305,7 +305,7 @@
             })
           ;
 
-          g.selectAll("svg").data(data).enter()
+          viewport.selectAll("svg").data(data).enter()
             .append("text")
             .attr("x", getXTextPos)
             .attr("y", getStackTextPosition)
