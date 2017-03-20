@@ -365,12 +365,15 @@
             .attr("transform", "translate(" + d3.event.transform.x + ",0)"
                              + "scale(" + d3.event.transform.k + " 1)"); 
           // translate the x-axis together with the data
-          g.select(".axis .domain")
-            .attr("transform", "translate(" + d3.event.transform.x + ",0)"
-                             + "scale(" + d3.event.transform.k + " 1)"); 
+          g.selectAll(".axis")
+            .attr("transform", 
+              function(d) { 
+                return "translate(" + d3.event.transform.x + ", " + timeAxisYPosition + ")"
+                     + "scale(" + d3.event.transform.k + " 1)";
+                   }); 
 
           new_xScale = d3.event.transform.rescaleX(xScale);                    
-          g.select('.axis').call(xAxis.scale(new_xScale));
+          g.selectAll('.axis').call(function(d) {xAxis.scale(new_xScale);});
 
           var xpos = -d3.event.transform.x;
           scroll(xpos, xScale);          
@@ -378,7 +381,7 @@
 
         var zoom = d3.zoom()
                       .scaleExtent([scaleFactor, 10]) // max zoom 10
-                      .translateExtent([[-gParentSize.width, 0], [width + 90, 0]]) // don't allow translating y-axis
+                      .translateExtent([[0, 0], [width, 0]]) // don't allow translating y-axis
                       .on("zoom", move);
 
 
