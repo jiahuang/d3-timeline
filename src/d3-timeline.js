@@ -154,7 +154,7 @@
         .attr("class", "timeline-label")
         .attr("transform", "translate(" + labelMargin + "," + rowsDown + ")")
         .text(hasLabel ? labelFunction(datum.label) : datum.id)
-        .on("click", function (d, i) { click(d, index, datum); });
+        .on("click", function (d, i) { click(d, index, datum, i); });
     };
 
     function timeline (gParent) {
@@ -281,16 +281,16 @@
               return colorCycle(index);
             })
             .on("mousemove", function (d, i) {
-              hover(d, index, datum);
+              hover(d, index, datum, i);
             })
             .on("mouseover", function (d, i) {
-              mouseover(d, i, datum);
+              mouseover(d, i, datum, i);
             })
             .on("mouseout", function (d, i) {
-              mouseout(d, i, datum);
+              mouseout(d, i, datum, i);
             })
             .on("click", function (d, i) {
-              click(d, index, datum);
+              click(d, index, datum, i);
             })
             .attr("class", function (d, i) {
               return datum.class ? "timelineSeries_"+datum.class : "timelineSeries_"+index;
