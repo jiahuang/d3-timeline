@@ -2,6 +2,7 @@
   "name": "d3-timeline",
   "version": "0.0.5",
   "main": "src/d3-timeline.js",
+  "license": "MIT",
   "ignore": [
       "examples",
       "lib",
