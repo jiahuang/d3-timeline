@@ -333,7 +333,7 @@
           if (typeof(datum.icon) !== "undefined") {
             gParent.append("image")
               .attr("class", "timeline-label")
-              .attr("transform", "translate("+ 0 +","+ (margin.top + (itemHeight + itemMargin) * yAxisMapping[index])+")")
+              .attr("transform", "translate("+ 0 +","+ (margin.top + (itemHeight + itemMargin) * yAxisMapping[index] ? yAxisMapping[index] : 0)+")")
               .attr("xlink:href", datum.icon)
               .attr("width", margin.left)
               .attr("height", itemHeight);
