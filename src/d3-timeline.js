@@ -36,7 +36,7 @@
         itemHeight = 20,
         itemMargin = 5,
         navMargin = 60,
-        showTimeAxis = true,
+        showTimeAxis = false,
         showAxisTop = false,
         showTodayLine = false,
         timeAxisTick = false,
@@ -360,21 +360,6 @@
       if (showTimeAxis) { appendTimeAxis(g, xAxis, timeAxisYPosition); }
       if (timeAxisTick) { appendTimeAxisTick(g, xAxis, maxStack); }
 
-      if (width > gParentSize.width) {
-        var move = function() {
-          var x = Math.min(0, Math.max(gParentSize.width - width, d3.event.translate[0]));
-          zoom.translate([x, 0]);
-          g.attr("transform", "translate(" + x + ",0)");
-          scroll(x*scaleFactor, xScale);
-        };
-
-        var zoom = d3.behavior.zoom().x(xScale).on("zoom", move);
-
-        gParent
-          .attr("class", "scrollable")
-          .call(zoom);
-      }
-
       if (rotateTicks) {
         g.selectAll(".tick text")
           .attr("transform", function(d) {
@@ -460,7 +445,6 @@
           .style("stroke", lineFormat.color)//"rgb(6,120,155)")
           .style("stroke-width", lineFormat.width);
       }
-
     }
 
     // SETTINGS
