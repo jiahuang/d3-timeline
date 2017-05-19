@@ -5,6 +5,6 @@
   "repository": "https://github.com/jiahuang/d3-timeline.git",
   "license" : "MIT",
   "dependencies": {
-    "d3": ">=3.4.3"
+    "d3": "~4"
   }
 }
