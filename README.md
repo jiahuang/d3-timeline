@@ -1,4 +1,5 @@
-#d3-timeline
+# d3-timeline
+
 A simple d3 timeline plugin.
 
 Get something that looks like
@@ -87,7 +88,7 @@ This generates `<rect>`s with `A1` and `A2` as ids. If no id is provided, the id
 
 Look at the [examples](examples/example.html) for more details.
 
-##Data formats
+## Data formats
 
 The simplest data format only requires `starting_time` and `ending_time` for each series of data.
 ```js
@@ -123,6 +124,7 @@ The simplest data format only requires `starting_time` and `ending_time` for eac
 ```
 
 ### 'times' elements array
+
 Each item in the times array must have `starting_time` and `ending_time`.  You could also specify optional `color` or `label` elements within a times item, as well as a [property mapped to a color](#colorpropertypropertyname).
 ```js
 [
@@ -133,28 +135,36 @@ Each item in the times array must have `starting_time` and `ending_time`.  You c
 ```
 
 
-##Method Calls
+## Method Calls
+
 All methods that take in arguments return the current settings if no argument is passed.
 
-###.width(width)
+### .width(width)
+
 sets the width of the timeline. If the width of the timeline is longer than the width of the svg object, the timeline will automatically scroll. The width of the timeline will default to the width of the svg if width is not set.
 
-###.height(height)
+### .height(height)
+
 sets the height of the timeline. The height of the timeline will be automatically calculated from the height of each item if height is not set on the timeline or the svg.
 
-###.itemHeight(height)
+### .itemHeight(height)
+
 sets the height of the data series in the timeline. Defaults to 20px.
 
-###.itemMargin(height)
+### .itemMargin(height)
+
 sets the margin between the data series in the timeline. Defaults to 5px.
 
-###.margin({left: , right: , top: , bottom: })
+### .margin({left: , right: , top: , bottom: })
+
 sets the margin of the entire timeline inside of the svg. Defaults to 30px all around.
 
-###.display("circle" | "rect")
+### .display("circle" | "rect")
+
 Displays the data series as either circles or rectangles. Defaults to "rect".
 
-###.labelFormat(callback)
+### .labelFormat(callback)
+
 registers a function to be called when the text for the label needs to
 be generated. Useful if your label looks like this:
 ```
@@ -170,7 +180,8 @@ look something like this:
 .labelFormat(function(label){ return label[currentLocale];})
 ```
 
-###.tickFormat({format: , tickTime: , tickInterval: , tickSize: , numTicks: , tickValues})
+### .tickFormat({format: , tickTime: , tickInterval: , tickSize: , numTicks: , tickValues})
+
 sets the formatting of the ticks in the timeline. Defaults to
 ```js
 {
@@ -186,16 +197,20 @@ Tick interval/values can be set with:
 - ``numTicks`` and ``tickInterval``
 - ``tickValues``
 
-###.rotateTicks(degrees)
+### .rotateTicks(degrees)
+
 sets the degree of rotation of the tickmarks. Defaults to no rotation (0 degrees).
 
-###.orient("bottom" | "top")
+### .orient("bottom" | "top")
+
 sets the placement of the axis. Defaults to bottom.
 
-###.colors(callback)
+### .colors(callback)
+
 sets the d3 color scale the data series in the timeline. Defaults to `d3.scale.category20()`.
 
-###.colorProperty(propertyName)
+### .colorProperty(propertyName)
+
 sets the data item property name that maps your data items to your color scale. For example if you set your chart's `colors()` and `colorsProperty()` as follows:
 
 ```js
@@ -239,39 +254,50 @@ Properties set in the time object will override the property set for the series:
 
 ![Timeline With Per-Time Colors](examples/timeline8.png)
 
-###.beginning(date)
+### .beginning(date)
+
 sets the time that the timeline should start. If `beginning` and `ending` are not set, the timeline will calculate it based off of the smallest and largest times.
 
-###.ending(date)
+### .ending(date)
+
 sets the time that the timeline should end. If `beginning` and `ending` are not set, the timeline will calculate it based off of the smallest and largest times.
 
-###.stack()
+### .stack()
+
 Takes in no arguments. Toggles the stacking/unstacking of data series in the timeline. Needs to be true in order for icons and labels to show up properly.
 
-###.relativeTime()
+### .relativeTime()
+
 Takes in no arguments. Toggles the calculation and use of relative timestamps. The origin of the timeline will be set to 0 and the starting_time of the first data dictionary in the data array will be subtracted from every subsequent timestamp.
 
-###.showToday()
+### .showToday()
+
 Takes in no arguments. Toggles a vertical line showing the current Date.now() time. Uses showTodayFormat for the line formatting.
 
-###.showTodayFormat({marginTop: , marginBottom: , width: , color: })
+### .showTodayFormat({marginTop: , marginBottom: , width: , color: })
+
 Sets the formatting of the showToday line. Color cycle can also be of the format `rgb(x, y, z)`.
 
-###.showBorderLine()
+### .showBorderLine()
+
 Takes in no arguments. Toggles a vertical line showing the borders of one specific timeline. Uses showBorderFormat for the line formatting.
 
-###.showBorderFormat({marginTop: , marginBottom:, width: , color: })
+### .showBorderFormat({marginTop: , marginBottom:, width: , color: })
+
 Sets the formatting of the showBorder line. Color cycle can also be of the format `rgb(x, y, z)`.
 
-###.showTimeAxis()
+### .showTimeAxis()
+
 Takes in no arguments. Toggles the visibility of the time axis.
 
-###.showTimeAxisTick()
+### .showTimeAxisTick()
+
 Takes in no arguments. Shows tick marks along the X axis according to the arguments for `showTimeAxisTickFormat`. Useful for datasets with a lot of stacked elements.
 
 ![Timeline With tick marks](examples/timeline9.png)
 
-###.showTimeAxisTickFormat(format)
+### .showTimeAxisTickFormat(format)
+
 Format for `showTimeAxisTick`. Defaults to ```{stroke: "stroke-dasharray", spacing: "4 10"}```.
 
 Defaults to
@@ -283,13 +309,16 @@ Defaults to
   color: colorCycle
 }
 ```
-###.rowSeparators(color)
+### .rowSeparators(color)
+
 Sets the display of horizontal lines betweens rows.
 
-###.background(color)
+### .background(color)
+
 Sets the background of the rows. Useful for creating a continuous effect when there are gaps in your data.
 
-###.hover(callback)
+### .hover(callback)
+
 takes in a callback called on mousemove of the timeline data. Example
 
 ```js
@@ -301,7 +330,8 @@ d3.timeline()
   });
 ```
 
-###.mouseover(callback)
+### .mouseover(callback)
+
 takes in a callback called on mouseover of the timeline data. Example
 
 ```js
@@ -313,7 +343,8 @@ d3.timeline()
   });
 ```
 
-###.mouseout(callback)
+### .mouseout(callback)
+
 takes in a callback called on mouseout of the timeline data. Example
 
 ```js
@@ -325,7 +356,8 @@ d3.timeline()
   });
 ```
 
-###.click(callback)
+### .click(callback)
+
 takes in a callback called on click of the timeline data. Example
 
 ```js
@@ -337,7 +369,8 @@ d3.timeline()
   });
 ```
 
-###.scroll(callback)
+### .scroll(callback)
+
 takes in a callback called on scroll of the timeline data. Example
 
 ```js
@@ -348,5 +381,6 @@ d3.timeline()
   });
 ```
 
-##License
-MIT
+## License
+
+[MIT](https://mit-license.org/)
