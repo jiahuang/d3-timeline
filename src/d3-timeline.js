@@ -260,7 +260,7 @@
             .attr("x", getXPos)
             .attr("y", getStackPosition)
             .attr("width", function (d, i) {
-              return (d.ending_time - d.starting_time) * scaleFactor;
+              return isNaN(parseFloat(d.ending_time - d.starting_time)) ? itemHeight : (d.ending_time - d.starting_time) * scaleFactor;
             })
             .attr("cy", function(d, i) {
                 return getStackPosition(d, i) + itemHeight/2;
