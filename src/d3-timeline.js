@@ -169,6 +169,19 @@
 
       setWidth();
 
+      var generateTicksFromBlocks = function() {
+        var ticks = []
+        g.each(function(d) {
+          for (var datum of d) {
+            for (var time of datum.times) {
+              ticks.push(new Date(time.starting_time))
+            }
+          }
+        })
+
+        return ticks
+      }
+
       // check if the user wants relative time
       // if so, substract the first timestamp from each subsequent timestamps
       if(timeIsRelative){
@@ -233,7 +246,9 @@
         .tickFormat(tickFormat.format)
         .tickSize(tickFormat.tickSize);
 
-      if (tickFormat.tickValues != null) {
+      if (tickFormat.atBlockStart) {
+        xAxis.tickValues(generateTicksFromBlocks())
+      } else if (tickFormat.tickValues != null) {
         xAxis.tickValues(tickFormat.tickValues);
       } else {
         xAxis.ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval);
