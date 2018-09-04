@@ -169,12 +169,32 @@
 
       setWidth();
 
-      var generateTicksFromBlocks = function() {
+      var generateTicksFromBlocks = function(overlap) {
         var ticks = []
         g.each(function(d) {
           for (var datum of d) {
             for (var time of datum.times) {
-              ticks.push(new Date(time.starting_time))
+              var current = new Date(time.starting_time)
+
+              if (!ticks.length) {
+                ticks.push(current)
+                continue
+              }
+
+              // check for overlap
+              if (overlap) {
+                var tickOverlaps = false
+                for (var tick of ticks) {
+                  if ((current >= tick && current - tick <= overlap)
+                      || (current < tick && tick - current <= overlap)) {
+                    tickOverlaps = true
+                  }
+                }
+
+                if (!tickOverlaps) ticks.push(current)
+              } else {
+                ticks.push(current)
+              }
             }
           }
         })
@@ -247,7 +267,7 @@
         .tickSize(tickFormat.tickSize);
 
       if (tickFormat.atBlockStart) {
-        xAxis.tickValues(generateTicksFromBlocks())
+        xAxis.tickValues(generateTicksFromBlocks(tickFormat.hideOverlapTicks))
       } else if (tickFormat.tickValues != null) {
         xAxis.tickValues(tickFormat.tickValues);
       } else {
