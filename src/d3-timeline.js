@@ -172,20 +172,29 @@
       // check if the user wants relative time
       // if so, substract the first timestamp from each subsequent timestamps
       if(timeIsRelative){
-        g.each(function (d, i) {
+        // find the minimum timestamp in all rows
+        g.each(function (d) {
           d.forEach(function (datum, index) {
             datum.times.forEach(function (time, j) {
               if(index === 0 && j === 0){
-                originTime = time.starting_time;               //Store the timestamp that will serve as origin
-                time.starting_time = 0;                        //Set the origin
-                time.ending_time = time.ending_time - originTime;     //Store the relative time (millis)
-              }else{
-                time.starting_time = time.starting_time - originTime;
-                time.ending_time = time.ending_time - originTime;
+                minTime = time.starting_time;
+              } else if (minTime > time.starting_time) {
+                minTime = time.starting_time;
               }
             });
           });
         });
+        // actually substract minimum timestamp to all timestamps 
+        g.each(function (d) {
+          d.forEach(function (datum) {
+            datum.times.forEach(function (time) {
+              time.starting_time = time.starting_time - minTime;
+              time.ending_time = time.ending_time - minTime;
+            });
+          });
+        });
+        // reset value
+        minTime = 0;
       }
 
       // check how many stacks we're gonna need
