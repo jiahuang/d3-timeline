@@ -169,6 +169,39 @@
 
       setWidth();
 
+      var generateTicksFromBlocks = function(overlap) {
+        var ticks = []
+        g.each(function(d) {
+          for (var datum of d) {
+            for (var time of datum.times) {
+              var current = new Date(time.starting_time)
+
+              if (!ticks.length) {
+                ticks.push(current)
+                continue
+              }
+
+              // check for overlap
+              if (overlap) {
+                var tickOverlaps = false
+                for (var tick of ticks) {
+                  if ((current >= tick && current - tick <= overlap)
+                      || (current < tick && tick - current <= overlap)) {
+                    tickOverlaps = true
+                  }
+                }
+
+                if (!tickOverlaps) ticks.push(current)
+              } else {
+                ticks.push(current)
+              }
+            }
+          }
+        })
+
+        return ticks
+      }
+
       // check if the user wants relative time
       // if so, substract the first timestamp from each subsequent timestamps
       if(timeIsRelative){
@@ -233,7 +266,9 @@
         .tickFormat(tickFormat.format)
         .tickSize(tickFormat.tickSize);
 
-      if (tickFormat.tickValues != null) {
+      if (tickFormat.atBlockStart) {
+        xAxis.tickValues(generateTicksFromBlocks(tickFormat.hideOverlapTicks))
+      } else if (tickFormat.tickValues != null) {
         xAxis.tickValues(tickFormat.tickValues);
       } else {
         xAxis.ticks(tickFormat.numTicks || tickFormat.tickTime, tickFormat.tickInterval);
