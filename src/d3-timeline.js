@@ -220,7 +220,11 @@
         }
       }
 
-      var scaleFactor = (1/(ending - beginning)) * (width - margin.left - margin.right);
+      var scaleFactor = 0;
+      if (ending !== beginning) {
+         scaleFactor = (1/(ending - beginning)) * (width - margin.left - margin.right);
+      }
+     
 
       // draw the axis
       var xScale = d3.time.scale()
